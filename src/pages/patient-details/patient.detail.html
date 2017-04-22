@@ -1,0 +1,28 @@
+<script src="../home/home.ts"></script>
+<script src="../../app/app.component.ts"></script>
+<script src="home.ts"></script>
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>Patient Detail</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      Information About Patient
+    </ion-card-header>
+
+  </ion-card>
+
+  <ion-card>
+    <ion-list>
+      <ion-label  stacked>Family name : {{patient.name.family}}</ion-label>
+      <ion-label  stacked>Given name : {{patient.name.given}}</ion-label>
+      <ion-label  stacked>Sex : M</ion-label>
+      <ion-label  stacked>Birth date : 17-01-1995</ion-label>
+      <ion-label  stacked>Address : wine street, new York City</ion-label>
+    </ion-list>
+  </ion-card>
+</ion-content>

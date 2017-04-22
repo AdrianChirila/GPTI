@@ -1,0 +1,30 @@
+<script src="../../providers/patient.service.ts"></script>
+<script src="../../providers/auth.service.ts"></script>
+<script src="../../app/app.component.ts"></script>
+<script src="home.ts"></script>
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      Explore Nearby
+    </ion-card-header>
+
+    <ion-item>
+      <button ion-button (click)="goToNewRequestPage()">New Requests (3)</button>
+    </ion-item>
+
+    <ion-list>
+      <button ion-item  (click)="goToPatientDetails(patient)" *ngFor="let patient of patients">
+        <ion-icon name="md-time" item-left></ion-icon>
+        {{patient.name.given}} {{patient.name.family}}
+      </button>
+    </ion-list>
+
+  </ion-card>
+</ion-content>
