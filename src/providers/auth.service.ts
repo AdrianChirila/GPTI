@@ -21,7 +21,7 @@ export class AuthService {
   public logIn(cnp: string, password: string) {
     let sessionUrl: string = `${SERVER_ADDRESS}${URLS.PUBLIC}${URLS.AUTH}${URLS.SESSION}`
     logger.log(`Authenticate via http: ${cnp} - ${password}`);
-    let body: any = {pid: cnp, password: password}
+    let body: any = {pid: cnp, password: password};
       return this.http
         .post(sessionUrl, JSON.stringify(body), {headers: this.headers})
         .map((res: any) => {

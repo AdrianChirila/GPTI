@@ -6,7 +6,8 @@ export const URLS = {
   AUTH: '/auth',
   SESSION: '/session',
   API: '/api',
-  PATIENT: '/Patient'
+  PATIENT: '/Patient',
+  APPOINTMENT: '/Appointment'
 };
 
 export const SERVER_ADDRESS = `http://localhost:3000`;

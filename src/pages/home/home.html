@@ -1,3 +1,8 @@
+<script src="../../domain/appointment.ts"></script>
+<script src="../../domain/patient.ts"></script>
+<script src="../patient-details/patient.details.ts"></script>
+<script src="../auth/login.ts"></script>
+<script src="../../providers/appointment.service.ts"></script>
 <script src="../../providers/patient.service.ts"></script>
 <script src="../../providers/auth.service.ts"></script>
 <script src="../../app/app.component.ts"></script>
@@ -20,9 +25,9 @@
     </ion-item>
 
     <ion-list>
-      <button ion-item  (click)="goToPatientDetails(patient)" *ngFor="let patient of patients">
+      <button ion-item  (click)="goToPatientDetails(appointment)" *ngFor="let appointment of appointments">
         <ion-icon name="md-time" item-left></ion-icon>
-        {{patient.name.given}} {{patient.name.family}}
+        {{appointment.participant[0].actor.display}} {{appointment.date}}
       </button>
     </ion-list>
 

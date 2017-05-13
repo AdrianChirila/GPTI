@@ -10,6 +10,7 @@ import {AuthService} from "../providers/auth.service";
 import {PatientDetailPage} from "../pages/patient-details/patient.details";
 import {NewRequestPage} from "../pages/request/new-request";
 import {PatientService} from "../providers/patient.service";
+import {AppointmentService} from "../providers/appointment.service";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,6 @@ import {PatientService} from "../providers/patient.service";
     PatientDetailPage,
     NewRequestPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, AuthService, PatientService]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, AuthService, PatientService, AppointmentService]
 })
 export class AppModule {}

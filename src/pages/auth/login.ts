@@ -3,6 +3,7 @@ import {getLogger, ConsoleLogger} from '../../utils'
 import {NavController, NavParams, LoadingController, Loading} from 'ionic-angular';
 import {AuthService} from "../../providers/auth.service";
 import {HomePage} from "../home/home";
+import {ShareService} from "../../services/share.service";
 
 const logger: ConsoleLogger = getLogger('Log: ');
 @Component({
@@ -18,6 +19,7 @@ export class LoginPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public authService: AuthService,
+              public shareService: ShareService,
               public loadController: LoadingController) {
     logger.log('Constructor: LoginPage');
     this.status = " ";
@@ -29,8 +31,10 @@ export class LoginPage {
     this.authService.logIn(this.cnp, this.password).subscribe((event: any) => {
       // let parsedEvent: any = event.json();
       this.hideLoading();
-      if (this.authService.getToken()) {
-        logger.log(`Auth with success`);
+      let token: string = this.authService.getToken();
+      if (token) {
+        logger.log(`Auth with success: ${token}`);
+        this.shareService.setToken(token);
         this.navCtrl.setRoot(HomePage);
       } else {
         logger.log(`Insucces on auth!`);

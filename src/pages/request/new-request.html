@@ -1,16 +1,33 @@
-<script src="../../app/app.component.ts"></script>
+<script src="../home/home.ts"></script>
 <script src="new-request.ts"></script>
+<script src="../../domain/appointment.ts"></script>
+<script src="../../domain/patient.ts"></script>
+<script src="../patient-details/patient.details.ts"></script>
+<script src="../auth/login.ts"></script>
+<script src="../../providers/appointment.service.ts"></script>
+<script src="../../providers/patient.service.ts"></script>
+<script src="../../providers/auth.service.ts"></script>
+<script src="../../app/app.component.ts"></script>
+<script src="home.ts"></script>
+
 <ion-header>
-  Requests
+  <ion-navbar>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-item>
-      <ion-label color="primary" stacked>Request</ion-label>
-    </ion-item>
-  </ion-list>
-  <button ion-item (click)="goBack()">
-    <ion-icon name="ion-arrow-left-a" item-left>Back</ion-icon>
-  </button>
+  <ion-card>
+    <ion-card-header>
+     New Request
+    </ion-card-header>
+
+    <ion-list>
+      <button ion-item  (click)="goToPatientDetails(appointment)" *ngFor="let appointment of appointments">
+        <ion-icon name="md-time" item-left></ion-icon>
+        {{appointment.participant[0].actor.display}} {{appointment.date}}
+      </button>
+    </ion-list>
+
+  </ion-card>
 </ion-content>
