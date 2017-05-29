@@ -17,17 +17,13 @@ export class AppointmentService {
   }
 
   private parseAppointments(appointments: any[]) {
-    console.log('Parse appointments!', this.appointments);
     // this.appointments = [];
-    console.log('Foer each ppointmen:::', appointments);
     appointments.forEach((appointment: any) => {
       this.appointments.push(appointment);
     });
-    console.log('this.appointments::', this.appointments);
   };
 
   public getAppointments() {
-    console.log('Get appointments::', this.appointments);
     return this.appointments;
   }
   public book(token: string, appointment: any) {

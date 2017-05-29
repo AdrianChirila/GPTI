@@ -3,6 +3,7 @@ export class ShareService {
   private selectedPatient: Patient;
   private token: string;
   private selectedAppointment: any;
+  private appMode: string;
 
   public setSelectedPatient(patient: Patient) {
     this.selectedPatient = patient;
@@ -25,5 +26,13 @@ export class ShareService {
   }
   public getSelectedAppointment() {
     return this.selectedAppointment;
+  }
+
+  public setAppMode(appMode: string) {
+    this.appMode = `${appMode}Mode`;
+  }
+
+  public getAppMode() {
+    return this.appMode;
   }
 }

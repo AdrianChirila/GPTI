@@ -14,7 +14,7 @@
       Information About Patient
     </ion-card-header>
 
-    <ion-list>
+    <ion-list *ngFor="let patient of patients">
       <ion-label stacked>Family name : {{patient.name.family}}</ion-label>
       <ion-label stacked>Given name : {{patient.name.given}}</ion-label>
       <ion-label stacked>Sex : M</ion-label>

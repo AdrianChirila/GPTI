@@ -13,6 +13,7 @@ const logger: ConsoleLogger = getLogger('AuthService: ');
 export class AuthService {
   private headers: Headers = new Headers(HEADERS.CONTENT_TYPE);
   private token: string;
+  private appMode: string;
 
   constructor(public http: Http) {
     logger.log(`Auth Services started!`);
@@ -26,6 +27,7 @@ export class AuthService {
         .post(sessionUrl, JSON.stringify(body), {headers: this.headers})
         .map((res: any) => {
           let parsedRespone: any = res.json();
+          this.appMode = parsedRespone.role;
           // logger.log(`Str response: ${parsedRespone.stringify()}`);
           logger.log(`Response from server with status ${parsedRespone.status} : ${parsedRespone.token}`);
           this.token = parsedRespone.token;
@@ -39,7 +41,7 @@ export class AuthService {
     return this.token
   }
 
-  private loadState() {
-
+  public getAppMode() {
+    return this.appMode;
   }
 }

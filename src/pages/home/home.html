@@ -10,26 +10,66 @@
 
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title id ="title" *ngIf="patientMode" >Programari</ion-title>
+    <button id ="popOver" (click)="presentPopover($event)" ion-button icon-only>
+      <ion-icon name="more"></ion-icon>
+    </button>
+
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <ion-card>
-    <ion-card-header>
-      Explore Nearby
-    </ion-card-header>
-
-    <ion-item>
-      <button ion-button (click)="goToNewRequestPage()">New Requests (3)</button>
+    <ion-item *ngIf="practitionerMode">
+      <ion-list>
+        <button ion-item >
+          <ion-icon (click) = "goToNewRequestPage()" id="newRequest" name="md-archive" item-left></ion-icon>
+          Vezi cerererile de constultatii
+        </button>
+        <button ion-item >
+          <ion-icon  id="addPatient" name="md-person-add" item-left></ion-icon>
+          Adauga pacient
+        </button>
+        <button ion-item >
+          <ion-icon  (click) = "goToSchedulePage()" id="addSchedule" name="md-settings" item-left></ion-icon>
+          Configureaza program
+        </button>
+      </ion-list>
     </ion-item>
 
-    <ion-list>
-      <button ion-item  (click)="goToPatientDetails(appointment)" *ngFor="let appointment of appointments">
+    <ion-list *ngIf="practitionerMode">
+      <button ion-item (click)="goToPatientDetails(appointment)" *ngFor="let appointment of appointments">
         <ion-icon name="md-time" item-left></ion-icon>
         {{appointment.participant[0].actor.display}} {{appointment.date}}
       </button>
     </ion-list>
-
   </ion-card>
+
+  <ion-card *ngIf="patientMode">
+    <ion-card-header>
+      Alege o optiune
+    </ion-card-header>
+
+    <ion-list>
+      <button ion-item >
+        <ion-icon (click) = "askForAppointment()" id="cerere" name="md-medkit" item-left></ion-icon>
+        Cerere de consultatie
+      </button>
+      <p>
+
+      </p>
+      <button ion-item >
+        <ion-icon id="info" name="md-information-circle" item-left></ion-icon>
+        Informatii medic
+      </button>
+      <p>
+
+      </p>
+      <button ion-item >
+        <ion-icon id="personal" name="ios-person" item-left></ion-icon>
+        Personal data
+      </button>
+    </ion-list>
+  </ion-card>
+
 </ion-content>

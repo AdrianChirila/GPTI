@@ -35,6 +35,7 @@ export class LoginPage {
       if (token) {
         logger.log(`Auth with success: ${token}`);
         this.shareService.setToken(token);
+        this.shareService.setAppMode(this.authService.getAppMode());
         this.navCtrl.setRoot(HomePage);
       } else {
         logger.log(`Insucces on auth!`);

@@ -16,6 +16,7 @@ export class PatientService {
   private patients: Patient [] = [];
   private patientApi: string = `${SERVER_ADDRESS}${URLS.API}${URLS.PATIENT}`;
   private targetPatient: Patient;
+
   constructor(public http: Http) {
     logger.log(`Patient Services started!`);
   }
@@ -26,6 +27,7 @@ export class PatientService {
       this.patients.push(new Patient(patient));
     })
   }
+
   public getPatients() {
     return this.patients;
   }
@@ -34,7 +36,7 @@ export class PatientService {
     logger.log(`fetch Patients via http`);
     // let body: any = {pid: cnp, password: password}
     return this.http
-      .get(this.patientApi,{headers: this.headers})
+      .get(this.patientApi, {headers: this.headers})
       .map((res: any) => {
         let parsedResponse: any = res.json();
         this.parsePatients(parsedResponse);
@@ -47,16 +49,16 @@ export class PatientService {
   }
 
   fetchPatientById(token: string, selectedPatient: Patient) {
-    this.headers.append(HEADERS.AUTHORIZATION, token);
+    if (!this.headers.has(HEADERS.AUTHORIZATION))
+      this.headers.append(HEADERS.AUTHORIZATION, token);
     logger.log(`fetch Patients via http`);
     // let body: any = {pid: cnp, password: password}
     return this.http
-      .get(this.patientApi + `/${selectedPatient}`,{headers: this.headers})
+      .get(this.patientApi + `/${selectedPatient}`, {headers: this.headers})
       .map((res: any) => {
         let parsedResponse: any = res.json();
-        console.log('Patient from server:::', parsedResponse);
+        console.log("Patient from server:::", parsedResponse);
         this.targetPatient = new Patient(parsedResponse);
-        console.log('parsed patient:::', this.targetPatient);
         // logger.log(`Str response: ${parsedRespone.stringify()}`);
         logger.log(`Response from server with status ${parsedResponse.status}`);
       })

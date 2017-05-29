@@ -1,10 +1,9 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams, LoadingController, Loading} from 'ionic-angular';
-import {AuthService} from "../../providers/auth.service";
-import {HomePage} from "../home/home";
 import {ShareService} from "../../services/share.service";
 import {PatientDetailPage} from "../patient-details/patient.details";
 import {AppointmentService} from "../../providers/appointment.service";
+import {HomePage} from "../home/home";
 
 @Component({
   selector: 'page-request',
@@ -15,7 +14,6 @@ export class NewRequestPage {
   private appointments: any[];
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public noteService: AuthService,
               public loadController: LoadingController,
               public shareService: ShareService,
               public appointmentService: AppointmentService) {
@@ -23,14 +21,10 @@ export class NewRequestPage {
       content: "Patient details"
     });
     this.showLoading();
-    console.log('1- Fetch appointments!');
     this.fetchAppointments();
-    console.log('2- Get appointments');
     this.appointments = appointmentService.getAppointments();
-      console.log('appointments', this.appointments);
   }
   private fetchAppointments() {
-    console.log('token::xxxxx', this.shareService.getToken());
     this.appointmentService.fetchAppointments('pending', this.shareService.getToken()).subscribe((event: any) => {
         console.log('Done!', event);
         this.hideLoading();
@@ -63,5 +57,9 @@ export class NewRequestPage {
       }
     });
     return targetPatient;
+  }
+
+  private goBack() {
+    this.navCtrl.push(HomePage);
   }
 }
