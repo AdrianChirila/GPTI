@@ -13,7 +13,7 @@ import {PopoverPage} from "../pages/popover/popover.page";
 import {PractitionerPopOverPage} from "../pages/popover/practitioner.popover.page";
 import {CreateAppointmentPage} from "../pages/appointment/create.appointment";
 import {ContactPage} from "../pages/contact/contact";
-import {SchedulePage} from "../pages/schedule/schedule";
+import {BasicPage, ModalContentPage} from "../pages/schedule/schedule";
 
 @NgModule({
   declarations: [
@@ -27,7 +27,8 @@ import {SchedulePage} from "../pages/schedule/schedule";
     PractitionerPopOverPage,
     CreateAppointmentPage,
     ContactPage,
-    SchedulePage
+    BasicPage,
+    ModalContentPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -44,7 +45,8 @@ import {SchedulePage} from "../pages/schedule/schedule";
     PractitionerPopOverPage,
     CreateAppointmentPage,
     ContactPage,
-    SchedulePage
+    BasicPage,
+    ModalContentPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, AuthService, PatientService, AppointmentService]
 })

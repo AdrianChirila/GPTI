@@ -9,7 +9,7 @@ import {APP_MODES} from "../../utils/app.modes";
 import {PopoverPage} from "../popover/popover.page";
 import {PractitionerPopOverPage} from "../popover/practitioner.popover.page";
 import {CreateAppointmentPage} from "../appointment/create.appointment";
-import {SchedulePage} from "../schedule/schedule";
+import {BasicPage} from "../schedule/schedule";
 
 @Component({
   selector: 'page-home',
@@ -122,7 +122,7 @@ export class HomePage {
   }
   private goToSchedulePage() {
     console.log('Go to schedule page!');
-    this.navCtrl.push(SchedulePage)
+    this.navCtrl.push(BasicPage)
   }
   private askForAppointment() {
     console.log('Ask for appointment!');
