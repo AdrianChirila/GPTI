@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {getLogger, ConsoleLogger} from '../../utils'
 import {NavController, NavParams, LoadingController, Loading} from 'ionic-angular';
 import {AuthService} from "../../providers/auth.service";
@@ -29,24 +29,27 @@ export class LoginPage {
     this.showLoading()
     logger.log(`Try to log in: ${this.cnp} ${this.password}`)
     this.authService.logIn(this.cnp, this.password).subscribe((event: any) => {
-      // let parsedEvent: any = event.json();
-      this.hideLoading();
-      let token: string = this.authService.getToken();
-      if (token) {
-        logger.log(`Auth with success: ${token}`);
-        this.shareService.setToken(token);
-        this.shareService.setAppMode(this.authService.getAppMode());
-        this.navCtrl.setRoot(HomePage);
-      } else {
-        logger.log(`Insucces on auth!`);
-      }
-    },
+        // let parsedEvent: any = event.json();
+        this.hideLoading();
+        let token: string = this.authService.getToken();
+        if (token) {
+          if (this.authService.getGeneralPractitioner())
+            this.shareService.setGeneralPractitioner(this.authService.getGeneralPractitioner());
+          logger.log(`Auth with success: ${token}`);
+          this.shareService.setToken(token);
+          this.shareService.setAppMode(this.authService.getAppMode());
+          this.navCtrl.setRoot(HomePage);
+        } else {
+          logger.log(`Insucces on auth!`);
+        }
+      },
       (error: any) => {
-      console.log('Error::', error);
-      this.status = `Error`
+        console.log('Error::', error);
+        this.status = `Error`
       });
   }
-  private showLoading(){
+
+  private showLoading() {
     this.loader = this.loadController.create({
       content: "Auth..."
     });
@@ -54,7 +57,7 @@ export class LoginPage {
     this.loader.present();
   }
 
-  private hideLoading(){
+  private hideLoading() {
     this.loader ? this.loader.dismiss() : true;
   }
 }

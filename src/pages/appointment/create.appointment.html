@@ -2,15 +2,45 @@
 <ion-header>
   <ion-navbar>
     <ion-title >
-      Creeaza o cerere de programare!
+      Creeaza o cerere de consultatie!
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-item>
-      <ion-label color="primary" stacked>Data</ion-label>
-    </ion-item>
+    <ion-card>
+      <ion-item>
+        <ion-label color="primary" stacked>
+          {{days[0].name}}
+          <!--{{practitionerFreeSlots[0].start}}
+          {{practitionerFreeSlots[0].end}}-->
+        </ion-label>
+      </ion-item>
+    </ion-card>
+
+    <ion-card>
+      <ion-item>
+        <ion-label color="primary" stacked>{{days[1].name}}</ion-label>
+      </ion-item>
+    </ion-card>
+
+    <ion-card>
+      <ion-item>
+        <ion-label color="primary" stacked>{{days[2].name}}</ion-label>
+      </ion-item>
+    </ion-card>
+
+    <ion-card>
+      <ion-item>
+        <ion-label color="primary" stacked>{{days[3].name}}</ion-label>
+      </ion-item>
+    </ion-card>
+
+    <ion-card>
+      <ion-item>
+        <ion-label color="primary" stacked>{{days[4].name}}</ion-label>
+      </ion-item>
+    </ion-card>
   </ion-list>
 </ion-content>

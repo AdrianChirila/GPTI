@@ -4,6 +4,7 @@ export class ShareService {
   private token: string;
   private selectedAppointment: any;
   private appMode: string;
+  private generalPractitioner: string;
 
   public setSelectedPatient(patient: Patient) {
     this.selectedPatient = patient;
@@ -24,8 +25,13 @@ export class ShareService {
   public setSelectedAppointment(appointment: any) {
     this.selectedAppointment = appointment;
   }
+
   public getSelectedAppointment() {
     return this.selectedAppointment;
+  }
+
+  public getGeneralPractitioner() {
+    return this.generalPractitioner
   }
 
   public setAppMode(appMode: string) {
@@ -34,5 +40,9 @@ export class ShareService {
 
   public getAppMode() {
     return this.appMode;
+  }
+
+  setGeneralPractitioner(generalPractitioner: string) {
+    this.generalPractitioner = generalPractitioner;
   }
 }

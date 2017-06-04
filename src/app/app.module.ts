@@ -14,6 +14,7 @@ import {PractitionerPopOverPage} from "../pages/popover/practitioner.popover.pag
 import {CreateAppointmentPage} from "../pages/appointment/create.appointment";
 import {ContactPage} from "../pages/contact/contact";
 import {BasicPage, ModalContentPage} from "../pages/schedule/schedule";
+import {SlotService} from "../providers/slot.service";
 
 @NgModule({
   declarations: [
@@ -48,6 +49,6 @@ import {BasicPage, ModalContentPage} from "../pages/schedule/schedule";
     BasicPage,
     ModalContentPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, AuthService, PatientService, AppointmentService]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, AuthService, PatientService, AppointmentService, SlotService]
 })
 export class AppModule {}

@@ -14,6 +14,7 @@ export class AuthService {
   private headers: Headers = new Headers(HEADERS.CONTENT_TYPE);
   private token: string;
   private appMode: string;
+  private generalPractitioner: string;
 
   constructor(public http: Http) {
     logger.log(`Auth Services started!`);
@@ -28,9 +29,11 @@ export class AuthService {
         .map((res: any) => {
           let parsedRespone: any = res.json();
           this.appMode = parsedRespone.role;
-          // logger.log(`Str response: ${parsedRespone.stringify()}`);
+          // logger.log(`S  tr response: ${parsedRespone.stringify()}`);
           logger.log(`Response from server with status ${parsedRespone.status} : ${parsedRespone.token}`);
           this.token = parsedRespone.token;
+          if (parsedRespone.generalPractitioner)
+            this.generalPractitioner = parsedRespone.generalPractitioner;
         })
         .catch((r: Response) => r.status == 404 || r.status == 400 ?
           Observable.throw(new Error("No deal found!")) :
@@ -43,5 +46,9 @@ export class AuthService {
 
   public getAppMode() {
     return this.appMode;
+  }
+
+  public getGeneralPractitioner() {
+    return this.generalPractitioner
   }
 }
