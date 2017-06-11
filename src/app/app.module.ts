@@ -11,7 +11,7 @@ import {PatientService} from "../providers/patient.service";
 import {AppointmentService} from "../providers/appointment.service";
 import {PopoverPage} from "../pages/popover/popover.page";
 import {PractitionerPopOverPage} from "../pages/popover/practitioner.popover.page";
-import {CreateAppointmentPage} from "../pages/appointment/create.appointment";
+import {CreateAppointmentPage, ModalAppointmentContentPage} from "../pages/appointment/create.appointment";
 import {ContactPage} from "../pages/contact/contact";
 import {BasicPage, ModalContentPage} from "../pages/schedule/schedule";
 import {SlotService} from "../providers/slot.service";
@@ -29,7 +29,8 @@ import {SlotService} from "../providers/slot.service";
     CreateAppointmentPage,
     ContactPage,
     BasicPage,
-    ModalContentPage
+    ModalContentPage,
+    ModalAppointmentContentPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -47,7 +48,8 @@ import {SlotService} from "../providers/slot.service";
     CreateAppointmentPage,
     ContactPage,
     BasicPage,
-    ModalContentPage
+    ModalContentPage,
+    ModalAppointmentContentPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, AuthService, PatientService, AppointmentService, SlotService]
 })

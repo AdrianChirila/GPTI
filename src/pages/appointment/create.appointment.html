@@ -1,4 +1,4 @@
-<script src="create.appointment.ts"></script>
+ <script src="create.appointment.ts"></script>
 <ion-header>
   <ion-navbar>
     <ion-title >
@@ -8,38 +8,62 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-card>
+  <ion-card color="primary">
+    Programul medicului
+  </ion-card>
+
+  <ion-list *ngIf="slotsHasArrived">
+    <!--<a ion-item (click)="openModal({charNum: 0})">
+      Luni
+    </a>-->
+
+    <ion-card (click) = "openModal({charNum: 0})">
       <ion-item>
         <ion-label color="primary" stacked>
           {{days[0].name}}
-          <!--{{practitionerFreeSlots[0].start}}
-          {{practitionerFreeSlots[0].end}}-->
+          {{getTime(practitionerFreeSlots[0].start)}} -
+          {{getTime(practitionerFreeSlots[0].end)}}
         </ion-label>
       </ion-item>
     </ion-card>
 
-    <ion-card>
+    <ion-card (click) = "openModal({charNum: 1})">
       <ion-item>
-        <ion-label color="primary" stacked>{{days[1].name}}</ion-label>
+        <ion-label color="primary" stacked>
+          {{days[1].name}}
+          {{getTime(practitionerFreeSlots[1].start)}} -
+          {{getTime(practitionerFreeSlots[1].end)}}
+        </ion-label>
       </ion-item>
     </ion-card>
 
-    <ion-card>
+    <ion-card (click) = "openModal({charNum: 2})">
       <ion-item>
-        <ion-label color="primary" stacked>{{days[2].name}}</ion-label>
+        <ion-label color="primary" stacked>
+          {{days[2].name}}
+          {{getTime(practitionerFreeSlots[2].start)}} -
+          {{getTime(practitionerFreeSlots[2].end)}}
+        </ion-label>
       </ion-item>
     </ion-card>
 
-    <ion-card>
+    <ion-card (click) = "openModal({charNum: 3})">
       <ion-item>
-        <ion-label color="primary" stacked>{{days[3].name}}</ion-label>
+        <ion-label color="primary" stacked>
+          {{days[3].name}}
+          {{getTime(practitionerFreeSlots[3].start)}} -
+          {{getTime(practitionerFreeSlots[3].end)}}
+        </ion-label>
       </ion-item>
     </ion-card>
 
-    <ion-card>
+    <ion-card (click) = "openModal({charNum: 4})">
       <ion-item>
-        <ion-label color="primary" stacked>{{days[4].name}}</ion-label>
+        <ion-label color="primary" stacked>
+          {{days[4].name}}
+          {{getTime(practitionerFreeSlots[4].start)}} -
+          {{getTime(practitionerFreeSlots[4].end)}}
+        </ion-label>
       </ion-item>
     </ion-card>
   </ion-list>

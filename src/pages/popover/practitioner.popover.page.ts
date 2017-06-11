@@ -1,11 +1,12 @@
 import {Component} from "@angular/core";
 import {ViewController, NavController} from "ionic-angular";
+import {LoginPage} from "../auth/login";
 @Component({
   template: `
     <ion-list>
       <ion-list-header>Optiuni</ion-list-header>
-      <button ion-item (click)="goToSettingsPage()">Seteaza programul</button>
-      <button ion-item (click)="close()">Adauga pacient</button>
+      <button ion-item (click)="close()">Close</button>
+      <button ion-item (click)="logOut()">Log out</button>
     </ion-list>
   `
 })
@@ -19,6 +20,8 @@ export class PractitionerPopOverPage {
 
   private goToSettingsPage() {
     console.log('Go to settings page!');
-    // this.navCtrl.getRootNav().setRoot(SupportPage);
+  }
+  private logOut() {
+    // this.navCtrl.push(LoginPage);
   }
 }

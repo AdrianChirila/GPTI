@@ -49,8 +49,9 @@ export class PatientService {
   }
 
   fetchPatientById(token: string, selectedPatient: Patient) {
-    if (!this.headers.has(HEADERS.AUTHORIZATION))
-      this.headers.append(HEADERS.AUTHORIZATION, token);
+    this.headers.set(HEADERS.AUTHORIZATION, token);
+    // if (!this.headers.has(HEADERS.AUTHORIZATION))
+    //   this.headers.append(HEADERS.AUTHORIZATION, token);
     logger.log(`fetch Patients via http`);
     // let body: any = {pid: cnp, password: password}
     return this.http

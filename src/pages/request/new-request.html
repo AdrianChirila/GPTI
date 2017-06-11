@@ -12,17 +12,14 @@
 
 <ion-header>
   <ion-navbar>
-    <!-- <ion-title>Cereri pentru constulataii</ion-title> -->
-    <ion-list>
-      <ion-icon name="ios-arrow-dropleft-circle" (click)="goBack()"></ion-icon>
-    </ion-list>
+    <ion-title>Cereri pentru constulataii</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <ion-card>
-    <ion-card-header>
-     New Request
+    <ion-card-header (click) = "goBack()">
+     {{newRequestStatus}}
     </ion-card-header>
 
     <ion-list>

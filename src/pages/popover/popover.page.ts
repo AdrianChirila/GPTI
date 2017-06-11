@@ -4,10 +4,8 @@ import {ViewController} from "ionic-angular";
   template: `
     <ion-list>
       <ion-list-header>Ionic</ion-list-header>
-      <button ion-item (click)="close()">Learn Ionic</button>
-      <button ion-item (click)="close()">Documentation</button>
-      <button ion-item (click)="close()">Showcase</button>
-      <button ion-item (click)="close()">GitHub Repo</button>
+      <button ion-item (click)="close()">Close</button>
+      <button ion-item (click)="logOut()">Log out</button>
     </ion-list>
   `
 })
@@ -16,5 +14,7 @@ export class PopoverPage {
 
   close() {
     this.viewCtrl.dismiss();
+  }
+  logOut() {
   }
 }

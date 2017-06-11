@@ -11,4 +11,4 @@ export const URLS = {
   SLOT: '/Slot'
 };
 
-export const SERVER_ADDRESS = `http://localhost:3000`;
+export const SERVER_ADDRESS = `http://192.168.0.105:3000`;

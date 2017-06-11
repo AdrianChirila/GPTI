@@ -10,6 +10,8 @@ import {HomePage} from "../home/home";
   templateUrl: 'new-request.html'
 })
 export class NewRequestPage {
+  private newRequestStatus: string;
+
   loader: Loading;
   private appointments: any[];
   constructor(public navCtrl: NavController,
@@ -23,6 +25,10 @@ export class NewRequestPage {
     this.showLoading();
     this.fetchAppointments();
     this.appointments = appointmentService.getAppointments();
+    if (this.appointments.length == 0)
+      this.newRequestStatus = "Nu exista cereri de programare";
+    else
+      this.newRequestStatus = `Aveti ${this.newRequestStatus.length} cereri de programare`
   }
   private fetchAppointments() {
     this.appointmentService.fetchAppointments('pending', this.shareService.getToken()).subscribe((event: any) => {

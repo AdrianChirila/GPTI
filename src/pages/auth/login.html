@@ -3,23 +3,22 @@
 <script src="../../app/app.component.ts"></script>
 <script src="login.ts"></script>
 <ion-header>
-  <ion-navbar>
-    <ion-title>Login</ion-title>
-  </ion-navbar>
+    <ion-title>Autentificare</ion-title>
 </ion-header>
 
 <ion-content padding>
   <ion-list>
     <ion-item>
-      <ion-label color="primary" stacked>CNP</ion-label>
-      <ion-input placeholder="CNP" [(ngModel)]="cnp"></ion-input>
+      <ion-label color="primary" stacked>nume</ion-label>
+      <ion-input placeholder="nume de utilizator" [(ngModel)]="cnp"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label color="primary" stacked>PASSWORD</ion-label>
-      <ion-input placeholder="PASSWORD" [(ngModel)]="password"></ion-input>
+      <ion-label color="primary" stacked>parola</ion-label>
+      <ion-input placeholder="parola" [(ngModel)]="password"></ion-input>
     </ion-item>
     <ion-item>
-      <button ion-button (click)="logIn()">Log In</button>
+      <!--<ion-icon (click)="logIn()"name="md-log-in" text-center></ion-icon>-->
+      <ion-label (click)="logIn()" color="primary"> Autentificare </ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

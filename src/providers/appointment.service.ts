@@ -35,11 +35,34 @@ export class AppointmentService {
 
       });
   }
+  public create(token: string, start: Date, end: Date) {
+    const appointment: any = {
+      date: start
+    };
+    this.headers.set(HEADERS.AUTHORIZATION, token);
+    // if (!this.headers.has(HEADERS.AUTHORIZATION))
+    //   this.headers.append(HEADERS.AUTHORIZATION, token);
+    logger.log(`Post Appointments via http`);
+    // let body: any = {pid: cnp, password: password}
+    return this.http
+      .post(`${this.appointmentApi}`, appointment ,{headers: this.headers})
+      .map((res: any) => {
+        let parsedResponse: any = res.json();
+        console.log('Appointment from server!', parsedResponse);
+        // this.parsePatients(parsedResponse);
+        // logger.log(`Str response: ${parsedRespone.stringify()}`);
+        logger.log(`Response from server with status ${parsedResponse.status}`);
+      })
+      .catch((r: Response) => r.status == 404 || r.status == 400 ?
+        Observable.throw(new Error("No deal found!")) :
+        Observable.throw(new Error("Service unavailable")));
+  }
 
   public fetchAppointments(status: string, token: string) {
     this.appointments = [];
-    if (!this.headers.has(HEADERS.AUTHORIZATION))
-      this.headers.append(HEADERS.AUTHORIZATION, token);
+    this.headers.set(HEADERS.AUTHORIZATION, token);
+    // if (!this.headers.has(HEADERS.AUTHORIZATION))
+    //   this.headers.append(HEADERS.AUTHORIZATION, token);
     logger.log(`fetch Appointments via http`);
     // let body: any = {pid: cnp, password: password}
     return this.http

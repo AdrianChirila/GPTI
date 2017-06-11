@@ -1,3 +1,4 @@
+<script src="../request/new-request.ts"></script>
 <script src="../../domain/appointment.ts"></script>
 <script src="../../domain/patient.ts"></script>
 <script src="../patient-details/patient.details.ts"></script>
@@ -10,11 +11,10 @@
 
 <ion-header>
   <ion-navbar>
-    <ion-title id ="title" *ngIf="patientMode" >Programari</ion-title>
-    <button id ="popOver" (click)="presentPopover($event)" ion-button icon-only>
-      <ion-icon name="more"></ion-icon>
+    <ion-title id ="title" >{{modeStatus}}</ion-title>
+    <button id ="popOver" (click)="logOut()" ion-button icon-only>
+      <ion-icon name="md-log-out"></ion-icon>
     </button>
-
   </ion-navbar>
 </ion-header>
 

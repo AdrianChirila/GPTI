@@ -10,6 +10,7 @@ import {PopoverPage} from "../popover/popover.page";
 import {PractitionerPopOverPage} from "../popover/practitioner.popover.page";
 import {CreateAppointmentPage} from "../appointment/create.appointment";
 import {BasicPage} from "../schedule/schedule";
+import {LoginPage} from "../auth/login";
 
 @Component({
   selector: 'page-home',
@@ -20,6 +21,7 @@ export class HomePage {
   private appointments: any[];
   private practitionerMode: boolean;
   private patientMode: boolean;
+  private modeStatus: string;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -31,13 +33,11 @@ export class HomePage {
     console.log('Constructor!');
   }
 
+  private logOut() {
+    this.navCtrl.push(LoginPage);
+  }
   presentPopover(myEvent) {
-    let popover: any;
-    if (this.practitionerMode)
-      popover = this.popoverCtrl.create(PractitionerPopOverPage);
-    else
-      popover = this.popoverCtrl.create(PopoverPage);
-
+    let popover: any = this.popoverCtrl.create(PractitionerPopOverPage);
     popover.present({
       ev: myEvent
     });
@@ -61,7 +61,6 @@ export class HomePage {
 
   private fetchAppointments() {
     this.appointmentService.fetchAppointments('booked', this.shareService.getToken()).subscribe((event: any) => {
-        console.log('Done!', event);
         this.hideLoading();
       },
       (error: any) => {
@@ -91,16 +90,17 @@ export class HomePage {
   }
 
   private decideAppMode() {
-    console.log('Share service, app mode:', this.shareService.getAppMode());
     if (this.shareService.getAppMode() == APP_MODES.Practitioner) {
       console.log('Practitioner mode on!');
-      this.practitionerMode = true
-    } else
+      this.practitionerMode = true;
+      this.modeStatus = "Lista cu programarile curente"
+    } else {
       this.patientMode = true;
+      this.modeStatus = "Programari la medicul de familie"
+    }
   }
 
   private getSuggestionForAppointment() {
-    console.log('Get suggestion for appointment!');
   }
 
   private ionViewDidLoad() {
@@ -108,9 +108,7 @@ export class HomePage {
   }
 
   private ionViewWillEnter() {
-    console.log('Ion view will enter!');
     this.decideAppMode();
-    console.log('mode:::', this.patientMode);
     this.loader = this.loadController.create({
       content: "Patient details"
     });
@@ -118,19 +116,17 @@ export class HomePage {
     // this.fetchPatients();
     this.fetchAppointments();
     this.appointments = this.appointmentService.getAppointments();
-    console.log('xxx Appointments xxx', this.appointments);
   }
+
   private goToSchedulePage() {
-    console.log('Go to schedule page!');
     this.navCtrl.push(BasicPage)
   }
+
   private askForAppointment() {
-    console.log('Ask for appointment!');
     this.navCtrl.push(CreateAppointmentPage);
   }
-  private requestForAppointment() {
-    console.log('Req for appointment');
 
+  private requestForAppointment() {
   }
 
   private ionViewDidEnter() {
