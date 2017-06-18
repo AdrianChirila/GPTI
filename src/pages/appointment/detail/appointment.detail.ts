@@ -6,37 +6,36 @@ import {ShareService} from "../../../services";
 import {AppointmentService} from "../../../providers/appointment.service";
 import {NewRequestPage} from "../../request/new-request";
 @Component({
-  selector: 'patient-detail',
-  templateUrl: 'patient.detail.html'
+  selector: 'appointment-detail',
+  templateUrl: 'appointment.detail.html'
 })
-export class PatientDetailPage {
+export class AppointmentDetailPage {
   private loader: Loading;
-  private patient: Patient [];
-
+  private patient: Patient;
+  private targetAppointment: any = null;
+  private patientHasArrived: boolean = false;
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public patientService: PatientService,
               public appointmentService: AppointmentService,
               public loadController: LoadingController,
               public shareService: ShareService) {
-    console.log('Patient detail page constructor!!!?');
   }
   private ionViewDidLoad() {
     console.log('Ion view did load!');
   }
   private ionViewWillEnter() { // THERE IT IS!!!
-    console.log('On view will enter!');
-    this.loader = this.loadController.create({
-      content: "Patient details"
-    });
-    this.showLoading();
-    this.fetch().then((patient: any) => {
-      console.log('Patient was fetch:', patient);
-      this.patient = patient;
-    });
+    console.log('Ion view will Enter');
+    this.targetAppointment = this.shareService.getSelectedAppointment();
+    this.fetchP();
+    // this.fetchPatient(this.shareService.getSelectedPatient(), (patient: any) => {
+    //   console.log('Patient::', patient);
+    //   this.targetPatient = patient;
+    //   this.patientHasArrived = true;
+    // });
   }
 
-  public fetch() {
+  public fetchP() {
     return new Promise((resolve, reject) => {
       this.fetchPatient(this.shareService.getSelectedPatient(), (err: any, patient: any) => {
         if (err) {
@@ -46,10 +45,12 @@ export class PatientDetailPage {
       });
     });
   }
+
   private fetchPatient(selectedPatient: Patient, callback: any) {
     this.patientService.fetchPatientById(this.shareService.getToken(), selectedPatient).subscribe((event: any) => {
         console.log('Done!', event);
-        this.patient = [this.patientService.getTargetPatient()];
+        this.patient = this.patientService.getTargetPatient();
+        console.log('Patient::', this.patient);
         callback(null, this.patient);
         this.hideLoading();
       },
@@ -61,12 +62,20 @@ export class PatientDetailPage {
   private showLoading() {
     this.loader.present();
   }
-  private acceptRequest() {
+  private acceptAppointment() {
     this.appointmentService.book(this.shareService.getToken(), this.shareService.getSelectedAppointment()).subscribe((event: any)=> {
       console.log('Appointment was made!');
       this.navCtrl.setRoot(NewRequestPage);
     });
   }
+  private rejectAppointment() {
+    this.appointmentService.reject(this.shareService.getToken(), this.shareService.getSelectedAppointment()).subscribe((event: any)=> {
+      console.log('Appointment was rejected!');
+      this.navCtrl.setRoot(NewRequestPage);
+    });
+    console.log('Reject appointment!');
+  }
+
   private hideLoading() {
     this.loader ? this.loader.dismiss() : true;
   }

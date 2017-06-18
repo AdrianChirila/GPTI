@@ -33,6 +33,23 @@ export class HomePage {
     console.log('Constructor!');
   }
 
+  ngOnInit() {
+    console.log('Ng on nit!!!!!!!!1', this.shareService.getToken());
+    if (!this.shareService.getToken()) {
+      this.navCtrl.setRoot(LoginPage);
+    } else {
+      this.decideAppMode();
+      this.loader = this.loadController.create({
+        content: "Patient details"
+      });
+      this.showLoading();
+      // this.fetchPatients();
+      this.fetchAppointments();
+      this.appointments = this.appointmentService.getAppointments();
+      // this.navCtrl.setRoot(HomePage);
+    }
+  }
+
   private logOut() {
     this.navCtrl.push(LoginPage);
   }
@@ -108,14 +125,7 @@ export class HomePage {
   }
 
   private ionViewWillEnter() {
-    this.decideAppMode();
-    this.loader = this.loadController.create({
-      content: "Patient details"
-    });
-    this.showLoading();
-    // this.fetchPatients();
-    this.fetchAppointments();
-    this.appointments = this.appointmentService.getAppointments();
+
   }
 
   private goToSchedulePage() {

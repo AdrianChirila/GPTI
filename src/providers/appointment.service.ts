@@ -5,6 +5,12 @@ import {getLogger, ConsoleLogger} from "../utils/console-logger";
 import {SERVER_ADDRESS, URLS} from "./endpoints";
 import {Observable} from "rxjs";
 const logger: ConsoleLogger = getLogger('AppointmentService: ');
+export const APPOINTMENT_STATUS = {
+  BOOKED: 'booked',
+  PENDING: 'pending',
+  FINISHED: 'finished',
+  CANCELLED: 'cancelled'
+};
 
 @Injectable()
 export class AppointmentService {
@@ -27,6 +33,7 @@ export class AppointmentService {
     return this.appointments;
   }
   public book(token: string, appointment: any) {
+    this.headers.set(HEADERS.AUTHORIZATION, token);
     logger.log(`Update Appointments via http`);
     appointment.status = 'booked';
     return this.http
@@ -35,6 +42,18 @@ export class AppointmentService {
 
       });
   }
+
+  public reject(token: string, appointment: any) {
+    this.headers.set(HEADERS.AUTHORIZATION, token);
+    logger.log(`Update Appointments via http`);
+    appointment.status = 'cancelled';
+    return this.http
+      .put(`${this.appointmentApi}/${appointment._id}`, appointment, {headers: this.headers})
+      .map((res: any) => {
+
+      });
+  }
+
   public create(token: string, start: Date, end: Date) {
     const appointment: any = {
       date: start

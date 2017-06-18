@@ -3,13 +3,14 @@ import { Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 import {LoginPage} from "../pages/auth/login";
 import {ShareService} from "../services";
+import {HomePage} from "../pages/home/home";
 
 @Component({
   templateUrl: 'app.html',
   providers: [ShareService]
 })
 export class MyApp {
-  rootPage = LoginPage;
+  rootPage = HomePage;
 
   constructor(platform: Platform, private shareService: ShareService) {
     platform.ready().then(() => {

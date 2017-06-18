@@ -1,13 +1,14 @@
 import {Component} from "@angular/core";
 import {
   NavController, NavParams, LoadingController, Loading, PopoverController, Platform,
-  ViewController, ModalController
+  ViewController, ModalController, ToastController
 } from "ionic-angular";
 import {PatientService} from "../../providers/patient.service";
 import {ShareService} from "../../services/share.service";
 import {AppointmentService} from "../../providers/appointment.service";
 import {weeks, DAY} from "../schedule/week";
 import {SlotService} from "../../providers/slot.service";
+import {AppointmentDetailPage} from "./detail/appointment.detail";
 
 @Component({
   selector: 'create-appointment',
@@ -18,18 +19,28 @@ export class CreateAppointmentPage {
   private days: any [];
   private practitionerFreeSlots: any[];
   private slotsHasArrived: boolean;
+  private booked: boolean = false;
+  private pending: boolean = false;
+  private appointments: any [];
+  private appointmentsHasArrived: boolean;
+  private bookedAppointment: any = null;
+  private pendingAppointment: any = null;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public slotService: SlotService,
+              public appointmentService: AppointmentService,
               public loadController: LoadingController,
               public shareService: ShareService,
-              public modalCtrl: ModalController) {
+              public modalCtrl: ModalController,
+              public toastCtrl: ToastController) {
     console.log('Create appointment : Constructor!');
     this.slotsHasArrived = false;
     this.days = weeks;
   }
-
+  public showAppointmentDetail() {
+    this.navCtrl.push(AppointmentDetailPage);
+  }
   public getTime(date: Date) {
     date = new Date(date);
     var h: any = (date.getHours() < 10 ? '0' : '') + date.getHours();
@@ -38,6 +49,21 @@ export class CreateAppointmentPage {
   }
 
   openModal(characterNum) {
+    if (this.booked || this.pending) {
+      let message: string;
+      if (this.booked)
+        message = 'Aveti deja o programare aprobata!';
+      else
+        message = 'Aveti deja o programare in cerere!';
+      let toast = this.toastCtrl.create({
+        message: message,
+        duration: 3000,
+        position: 'bottom'
+      });
+      toast.present();
+      return;
+    }
+
     let modalArgs: any = {
       characterNum: characterNum,
       token: this.shareService.getToken()
@@ -46,6 +72,7 @@ export class CreateAppointmentPage {
     let modal = this.modalCtrl.create(ModalAppointmentContentPage, modalArgs);
     modal.present();
   }
+
   private showLoading() {
     this.loader.present();
   }
@@ -59,14 +86,19 @@ export class CreateAppointmentPage {
   }
 
   private fetchAppointments() {
+    return new Promise((resolve, reject) => {
+      let targetAppointmentsStatus = `booked||pending`;
+      this.appointmentService.fetchAppointments(targetAppointmentsStatus, this.shareService.getToken()).subscribe((event) => {
+        console.log('Appointments:::', this.appointmentService.getAppointments());
+        resolve(this.appointmentService.getAppointments());
+      });
+    });
   }
 
   private fecthFreeSlots() {
     return new Promise((resolve, reject) => {
       this.slotService.getSlotsForGeneralPractitioner(this.shareService.getGeneralPractitioner(), this.shareService.getToken()).subscribe((event) => {
           // this.practitionerFreeSlots = this.slotService.getPractitionerFreeSlots();
-          console.log('SLots::: ', this.practitionerFreeSlots);
-          console.log('Fetch Slots for general practitioner, done!')
           resolve(this.slotService.getPractitionerFreeSlots())
         },
         (error) => {
@@ -78,6 +110,29 @@ export class CreateAppointmentPage {
 
   private ionViewWillEnter() {
     console.log('Create appointment: Ion view will enter!');
+    console.log('Create appointment : Ion view did load!');
+    this.fecthFreeSlots().then((data: any) => {
+      this.slotsHasArrived = true;
+      this.practitionerFreeSlots = data;
+    });
+
+    this.fetchAppointments().then((data: any) => {
+      this.booked = false;
+      this.pending = false;
+      this.appointments = data;
+      this.appointmentsHasArrived = true;
+      this.appointments.forEach((appointment: any) => {
+        if (appointment.status == 'booked') {
+          this.bookedAppointment = appointment;
+          this.booked = true;
+        }
+        if (appointment.status == 'pending') {
+          this.pendingAppointment = appointment;
+          this.pending = true;
+        }
+      });
+    });
+    //appointmentService
   }
 
   private ionViewDidEnter() {
@@ -85,15 +140,11 @@ export class CreateAppointmentPage {
   }
 
   private ionViewDidLoad() {
-    console.log('Create appointment : Ion view did load!');
-    return this.fecthFreeSlots().then((data: any) => {
-      this.slotsHasArrived = true;
-      this.practitionerFreeSlots = data;
-    })
+
   }
 
   private ionViewWillLeave() {
-    console.log('Create appointment : Ion view will leave!');
+
   }
 
   private ionViewDidLeave() {
@@ -154,6 +205,7 @@ export class ModalAppointmentContentPage {
     let diff = d.getDate() - day + dayOfWeek; // adjust when day is sunday
     return new Date(d.setDate(diff));
   }
+
   private makeScheduleFor(day: number) {
     let appointmentDate: Date = this.getLastDayOfWeek(new Date(), day + 1);
     let startHour: number = parseInt(this.start.split(":")[0]);
@@ -162,20 +214,13 @@ export class ModalAppointmentContentPage {
     console.log('Appointment date::', appointmentDate);
     this.appointmentService.create(this.token, appointmentDate, null)
       .subscribe((event: any) => {
-          console.log('Appointment has been propose for request!');
+        console.log('Appointment has been propose for request!');
       }, (error: any) => {
         console.log('Could not post appointment!', error);
       });
-    // this.slotService.create({status: 'free', start: startDate, end: endDate}, this.token)
-    //   .subscribe((event: any) => {
-    //     console.log('The slot was created!');
-    //   }, (error: any) => {
-    //     console.log('Could not create the slot::', error);
-    //   });
-  }11
+  }
 
   setSchedule() {
-    console.log('Start::::::::', this.start);
     try {
       switch (this.dayOfWeekindex) {
         case DAY.MONDAY:

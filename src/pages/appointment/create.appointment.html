@@ -1,7 +1,7 @@
- <script src="create.appointment.ts"></script>
+<script src="create.appointment.ts"></script>
 <ion-header>
   <ion-navbar>
-    <ion-title >
+    <ion-title>
       Creeaza o cerere de consultatie!
     </ion-title>
   </ion-navbar>
@@ -17,7 +17,7 @@
       Luni
     </a>-->
 
-    <ion-card (click) = "openModal({charNum: 0})">
+    <ion-card (click)="openModal({charNum: 0})">
       <ion-item>
         <ion-label color="primary" stacked>
           {{days[0].name}}
@@ -27,7 +27,7 @@
       </ion-item>
     </ion-card>
 
-    <ion-card (click) = "openModal({charNum: 1})">
+    <ion-card (click)="openModal({charNum: 1})">
       <ion-item>
         <ion-label color="primary" stacked>
           {{days[1].name}}
@@ -37,7 +37,7 @@
       </ion-item>
     </ion-card>
 
-    <ion-card (click) = "openModal({charNum: 2})">
+    <ion-card (click)="openModal({charNum: 2})">
       <ion-item>
         <ion-label color="primary" stacked>
           {{days[2].name}}
@@ -47,7 +47,7 @@
       </ion-item>
     </ion-card>
 
-    <ion-card (click) = "openModal({charNum: 3})">
+    <ion-card (click)="openModal({charNum: 3})">
       <ion-item>
         <ion-label color="primary" stacked>
           {{days[3].name}}
@@ -57,7 +57,7 @@
       </ion-item>
     </ion-card>
 
-    <ion-card (click) = "openModal({charNum: 4})">
+    <ion-card (click)="openModal({charNum: 4})">
       <ion-item>
         <ion-label color="primary" stacked>
           {{days[4].name}}
@@ -65,6 +65,17 @@
           {{getTime(practitionerFreeSlots[4].end)}}
         </ion-label>
       </ion-item>
+    </ion-card>
+    <ion-card>
+        <button *ngIf="pending" ion-item color="primary" (click)="showAppointmentDetail()">
+          <ion-icon name="md-clock" item-left></ion-icon>
+          Cerere trimisa
+        </button>
+
+      <button *ngIf="booked" ion-item color="secondary" (click)="showAppointmentDetail()">
+        <ion-icon name="md-clock" item-left></ion-icon>
+        Cerere acceptata
+      </button>
     </ion-card>
   </ion-list>
 </ion-content>

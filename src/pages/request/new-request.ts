@@ -4,6 +4,7 @@ import {ShareService} from "../../services/share.service";
 import {PatientDetailPage} from "../patient-details/patient.details";
 import {AppointmentService} from "../../providers/appointment.service";
 import {HomePage} from "../home/home";
+import {AppointmentDetailPage} from "../appointment/detail/appointment.detail";
 
 @Component({
   selector: 'page-request',
@@ -51,7 +52,7 @@ export class NewRequestPage {
     this.shareService.setSelectedAppointment(appointment);
     // console.log('Go to patient Details!', patient.name.family);
     // this.showLoading();
-    this.navCtrl.setRoot(PatientDetailPage);
+    this.navCtrl.push(AppointmentDetailPage);
     // this.hideLoading();
   }
 

@@ -38,10 +38,12 @@
     </ion-item>
 
     <ion-list *ngIf="practitionerMode">
-      <button ion-item (click)="goToPatientDetails(appointment)" *ngFor="let appointment of appointments">
+      <p>
+      <button ion-item (click)="goToPatientDetails(appointment)" *ngFor="let appointment of appointments" color="secondary">
         <ion-icon name="md-time" item-left></ion-icon>
         {{appointment.participant[0].actor.display}} {{appointment.date}}
       </button>
+      </p>
     </ion-list>
   </ion-card>
 

@@ -1,0 +1,34 @@
+<script src="appointment.detail.ts"></script>
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>Detalii cerere de programare</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="patient" color="primary">
+    <ion-label color ="light">
+      Detalii pacient
+    </ion-label>
+
+    <ion-label color ="light">
+      nume: {{patient.name.family}}
+    </ion-label>
+    <ion-label color ="light">
+      prenume: {{patient.name.family}}
+    </ion-label>
+  </ion-card>
+
+  <ion-card *ngIf="patient" color="primary">
+    <ion-label color ="light">
+      Detalii programare
+    </ion-label>
+
+    <ion-label color ="light">
+      Daca: {{targetAppointment.date}}
+    </ion-label>
+  </ion-card>
+    <button ion-button (click)="acceptAppointment()">Accepta</button>
+    <button ion-button (click)="rejectAppointment()">Respinge</button>
+</ion-content>
