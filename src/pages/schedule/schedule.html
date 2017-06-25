@@ -1,16 +1,18 @@
 <script src="../home/home.ts"></script>
 <script src="schedule.ts"></script>
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>Configureaza program</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-list-header>
-      Program pe saptamana curenta
-    </ion-list-header>
+    <ion-item color="secondary">
+      <ion-label>
+        Program pe saptamana curenta
+      </ion-label>
+    </ion-item>
     <a ion-item (click)="openModal({charNum: 0})">
       Luni
     </a>

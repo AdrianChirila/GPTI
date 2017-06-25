@@ -10,47 +10,55 @@
 <script src="home.ts"></script>
 
 <ion-header>
-  <ion-navbar>
-    <ion-title id ="title" >{{modeStatus}}</ion-title>
-    <button id ="popOver" (click)="logOut()" ion-button icon-only>
-      <ion-icon name="md-log-out"></ion-icon>
-    </button>
+  <ion-navbar color="primary">
+    <ion-title >
+          {{modeStatus}}
+    </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <ion-card>
-    <ion-item *ngIf="practitionerMode">
-      <ion-list>
-        <button ion-item >
-          <ion-icon (click) = "goToNewRequestPage()" id="newRequest" name="md-archive" item-left></ion-icon>
-          Vezi cerererile de constultatii
-        </button>
-        <button ion-item >
-          <ion-icon  id="addPatient" name="md-person-add" item-left></ion-icon>
-          Adauga pacient
-        </button>
-        <button ion-item >
-          <ion-icon  (click) = "goToSchedulePage()" id="addSchedule" name="md-settings" item-left></ion-icon>
-          Configureaza program
-        </button>
-      </ion-list>
-    </ion-item>
+      <ion-item *ngIf="practitionerMode">
+        <ion-list>
+          <button ion-item >
+            <ion-icon (click) = "goToNewRequestPage()" id="newRequest" name="md-archive" item-left></ion-icon>
+            Vezi cerererile de constultatii
+          </button>
+          <button ion-item >
+            <ion-icon  (click) = "goToCreatePatientPage()" id="addPatient" name="md-person-add" item-left></ion-icon>
+            Adauga pacient
+          </button>
+          <button ion-item >
+            <ion-icon  (click) = "goToSchedulePage()" id="addSchedule" name="md-settings" item-left></ion-icon>
+            Configureaza program
+          </button>
+          <button ion-item >
+            <ion-icon id="personalPractitoner" name="ios-person" item-left></ion-icon>
+            Date personale
+          </button>
+          <button ion-item >
+            <ion-icon id="logOutPractitioner" (click) = "logOut()"  name="md-power" item-left></ion-icon>
+            Deconectare
+          </button>
+        </ion-list>
+      </ion-item>
 
-    <ion-list *ngIf="practitionerMode">
-      <p>
-      <button ion-item (click)="goToPatientDetails(appointment)" *ngFor="let appointment of appointments" color="secondary">
-        <ion-icon name="md-time" item-left></ion-icon>
-        {{appointment.participant[0].actor.display}} {{appointment.date}}
-      </button>
-      </p>
-    </ion-list>
+  </ion-card>
+
+  <ion-card  *ngIf="practitionerMode" style="overflow-y: scroll;height: 200px;">
+    <button ion-item (click)="goToPatientDetails(appointment)" *ngFor="let appointment of appointments" color="secondary">
+      <ion-icon name="md-time" item-left></ion-icon>
+      {{appointment.participant[0].actor.display}} {{appointment.date}}
+    </button>
   </ion-card>
 
   <ion-card *ngIf="patientMode">
-    <ion-card-header>
-      Alege o optiune
-    </ion-card-header>
+    <ion-item color="secondary">
+      <ion-label>
+        Alege o optiune
+      </ion-label>
+    </ion-item>
 
     <ion-list>
       <button ion-item >
@@ -70,6 +78,11 @@
       <button ion-item >
         <ion-icon id="personal" name="ios-person" item-left></ion-icon>
         Personal data
+      </button>
+
+      <button ion-item >
+        <ion-icon id="logOutPatient" (click) = "logOut()"  name="md-power" item-left></ion-icon>
+        Deconectare
       </button>
     </ion-list>
   </ion-card>

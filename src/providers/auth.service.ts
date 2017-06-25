@@ -28,6 +28,7 @@ export class AuthService {
         .post(sessionUrl, JSON.stringify(body), {headers: this.headers})
         .map((res: any) => {
           let parsedRespone: any = res.json();
+          console.log("xxx", parsedRespone);
           this.appMode = parsedRespone.role;
           // logger.log(`S  tr response: ${parsedRespone.stringify()}`);
           logger.log(`Response from server with status ${parsedRespone.status} : ${parsedRespone.token}`);

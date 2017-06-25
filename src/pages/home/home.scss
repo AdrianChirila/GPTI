@@ -2,9 +2,6 @@ page-home {
   #popOver {
     float: right;
   }
-  #title {
-    justify-content: center
-  }
   #cerere {
     color: royalblue;
   }
@@ -14,6 +11,9 @@ page-home {
   #personal {
     color: royalblue;
   }
+  #personalPractitoner {
+    color: royalblue;
+  }
   #newRequest {
     color: royalblue;
   }
@@ -21,6 +21,14 @@ page-home {
     color: royalblue;
   }
   #addSchedule {
+    color: royalblue;
+  }
+  #title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #logOutPatient, #logOutPractitioner {
     color: royalblue;
   }
 }

@@ -2,8 +2,12 @@
 <script src="../patient-details/patient.details.ts"></script>
 <script src="../../app/app.component.ts"></script>
 <script src="login.ts"></script>
-<ion-header>
-    <ion-title>Autentificare</ion-title>
+<ion-header color="primary">
+  <ion-navbar color="primary">
+    <ion-title >
+      Autentificare
+    </ion-title>
+  </ion-navbar>
 </ion-header>
 
 <ion-content padding>
@@ -14,11 +18,13 @@
     </ion-item>
     <ion-item>
       <ion-label color="primary" stacked>parola</ion-label>
-      <ion-input placeholder="parola" [(ngModel)]="password"></ion-input>
+      <ion-input type="password" placeholder="parola" [(ngModel)]="password"></ion-input>
     </ion-item>
-    <ion-item>
+    <!--<ion-item>-->
+      <ion-card color="secondary">
+        <ion-label id="logInBtn" (click)="logIn()" color="dark"> Autentificare </ion-label>
+      </ion-card>
       <!--<ion-icon (click)="logIn()"name="md-log-in" text-center></ion-icon>-->
-      <ion-label (click)="logIn()" color="primary"> Autentificare </ion-label>
-    </ion-item>
+    <!--</ion-item>-->
   </ion-list>
 </ion-content>

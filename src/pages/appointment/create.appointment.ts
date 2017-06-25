@@ -6,6 +6,7 @@ import {
 import {PatientService} from "../../providers/patient.service";
 import {ShareService} from "../../services/share.service";
 import {AppointmentService} from "../../providers/appointment.service";
+import {ScheduleService} from "../../providers/schedule.service";
 import {weeks, DAY} from "../schedule/week";
 import {SlotService} from "../../providers/slot.service";
 import {AppointmentDetailPage} from "./detail/appointment.detail";
@@ -17,8 +18,9 @@ import {AppointmentDetailPage} from "./detail/appointment.detail";
 export class CreateAppointmentPage {
   private loader: Loading;
   private days: any [];
-  private practitionerFreeSlots: any[];
+  private practitionerSchedule: any[];
   private slotsHasArrived: boolean;
+  private schedulesHasArrived: boolean;
   private booked: boolean = false;
   private pending: boolean = false;
   private appointments: any [];
@@ -33,14 +35,17 @@ export class CreateAppointmentPage {
               public loadController: LoadingController,
               public shareService: ShareService,
               public modalCtrl: ModalController,
-              public toastCtrl: ToastController) {
+              public toastCtrl: ToastController,
+              public scheduleService: ScheduleService) {
     console.log('Create appointment : Constructor!');
     this.slotsHasArrived = false;
     this.days = weeks;
   }
+
   public showAppointmentDetail() {
     this.navCtrl.push(AppointmentDetailPage);
   }
+
   public getTime(date: Date) {
     date = new Date(date);
     var h: any = (date.getHours() < 10 ? '0' : '') + date.getHours();
@@ -66,7 +71,9 @@ export class CreateAppointmentPage {
 
     let modalArgs: any = {
       characterNum: characterNum,
-      token: this.shareService.getToken()
+      token: this.shareService.getToken(),
+      generalPractitioner: this.shareService.getGeneralPractitioner(),
+      schedule: this.practitionerSchedule[characterNum.charNum]
     };
 
     let modal = this.modalCtrl.create(ModalAppointmentContentPage, modalArgs);
@@ -95,11 +102,10 @@ export class CreateAppointmentPage {
     });
   }
 
-  private fecthFreeSlots() {
+  private fetchSchedules() {
     return new Promise((resolve, reject) => {
-      this.slotService.getSlotsForGeneralPractitioner(this.shareService.getGeneralPractitioner(), this.shareService.getToken()).subscribe((event) => {
-          // this.practitionerFreeSlots = this.slotService.getPractitionerFreeSlots();
-          resolve(this.slotService.getPractitionerFreeSlots())
+      this.scheduleService.getScheduleForGeneralPractitioner(this.shareService.getGeneralPractitioner(), this.shareService.getToken()).subscribe((event) => {
+          resolve(this.scheduleService.getSchedules());
         },
         (error) => {
           console.log('Could not fetch slots for general practitioner!', error);
@@ -111,9 +117,10 @@ export class CreateAppointmentPage {
   private ionViewWillEnter() {
     console.log('Create appointment: Ion view will enter!');
     console.log('Create appointment : Ion view did load!');
-    this.fecthFreeSlots().then((data: any) => {
-      this.slotsHasArrived = true;
-      this.practitionerFreeSlots = data;
+    // this.fetchSchedules();
+    this.fetchSchedules().then((data: any) => {
+      this.schedulesHasArrived = true;
+      this.practitionerSchedule = data;
     });
 
     this.fetchAppointments().then((data: any) => {
@@ -134,26 +141,6 @@ export class CreateAppointmentPage {
     });
     //appointmentService
   }
-
-  private ionViewDidEnter() {
-    console.log('Create appointment : Ion view did enter!');
-  }
-
-  private ionViewDidLoad() {
-
-  }
-
-  private ionViewWillLeave() {
-
-  }
-
-  private ionViewDidLeave() {
-    console.log("Create appointment : Ion view did leave!");
-  }
-
-  private ionViewWillUnload() {
-    console.log('Create appointment : Ion view will unload!');
-  }
 }
 
 @Component({
@@ -173,11 +160,22 @@ export class CreateAppointmentPage {
   <ion-list>
   <ion-item>
   <ion-label>Inceput programare</ion-label>
-  <ion-datetime displayFormat="hh:m:A" [(ngModel)]="start"></ion-datetime>
+  <ion-datetime id= "ionDateTime" displayFormat="hh:m:A" [(ngModel)]="start"></ion-datetime>
   </ion-item>
-  <button id = "setSchedule" ion-button (click)="setSchedule()">
+  <button id = "setSchedule" ion-button (click)="createAppointment()">
   Seteaza
   </button>
+  <ion-card style="overflow-y: scroll;height: 400px;">
+    <ion-label color="primary">Sugestii programare</ion-label>
+    <ion-item *ngIf="slotsHasArrived">
+          <div *ngFor="let slot of slots;let i = index" >
+              <button ion-item color= "{{colors[i]}}" (click)="setSuggestion(slot, i)">
+              <ion-icon name="md-calendar" item-left></ion-icon>
+              {{eraseTimeZone(slot.start)}} - {{eraseTimeZone(slot.end)}}
+              </button>        
+          </div>
+    </ion-item>
+  </ion-card>
   </ion-list>
   </ion-content>`
 })
@@ -187,14 +185,42 @@ export class ModalAppointmentContentPage {
   private start: string;
   private end: string;
   private dayOfWeekindex: number;
+  generalPractitioner: any;
+  private slotsHasArrived: boolean;
+  private slots: any;
+  private schedule: any;
+  private color: string;
+  private numbers: number [];
+  private colors: string[];
+  private startAppointment: Date;
+  private endAppointment: Date;
+  private selectedSlot: any;
 
   constructor(public platform: Platform,
               public params: NavParams,
               public viewCtrl: ViewController,
-              public appointmentService: AppointmentService) {
+              public appointmentService: AppointmentService,
+              public slotService: SlotService,
+              public navCtrl: NavController,) {
+    console.log('params:::', this.params);
+    this.color = "secondary";
     this.dayOfWeekindex = this.params.data.characterNum.charNum;
     this.token = this.params.data.token;
     this.day = weeks[this.dayOfWeekindex];
+    this.generalPractitioner = this.params.data.generalPractitioner;
+    this.schedule = this.params.data.schedule;
+    this.numbers = [];
+    this.colors = [];
+  }
+
+  setSuggestion(slot: any, index: number) {
+    if (this.colors[index] == 'secondary')
+      this.colors[index] = 'danger';
+    else
+      this.colors[index] = 'secondary';
+    this.startAppointment = slot.start;
+    this.endAppointment = slot.end;
+    this.selectedSlot = slot._id;
   }
 
   getLastDayOfWeek(d, dayOfWeek) {
@@ -206,49 +232,56 @@ export class ModalAppointmentContentPage {
     return new Date(d.setDate(diff));
   }
 
-  private makeScheduleFor(day: number) {
-    let appointmentDate: Date = this.getLastDayOfWeek(new Date(), day + 1);
-    let startHour: number = parseInt(this.start.split(":")[0]);
-    let startMinutes: number = parseInt(this.start.split(":")[1]);
-    appointmentDate.setHours(startHour, startMinutes);
-    console.log('Appointment date::', appointmentDate);
-    this.appointmentService.create(this.token, appointmentDate, null)
+  private createAppointment(day: number) {
+    let appointment: any = {
+      start: this.startAppointment,
+      end: this.endAppointment,
+      date: this.startAppointment,
+      slot: this.selectedSlot
+    };
+    console.log('Appointment:::', appointment);
+    this.appointmentService.create(this.token, appointment)
       .subscribe((event: any) => {
-        console.log('Appointment has been propose for request!');
+        this.navCtrl.push(CreateAppointmentPage);
       }, (error: any) => {
-        console.log('Could not post appointment!', error);
+        console.log('Could not fetch appointments: ', error);
       });
-  }
-
-  setSchedule() {
-    try {
-      switch (this.dayOfWeekindex) {
-        case DAY.MONDAY:
-          this.makeScheduleFor(DAY.MONDAY);
-          break;
-        case DAY.TUESDAY:
-          this.makeScheduleFor(DAY.TUESDAY);
-          break;
-        case DAY.WEDNESDAY:
-          this.makeScheduleFor(DAY.WEDNESDAY);
-          break;
-        case DAY.THURSDAY:
-
-          this.makeScheduleFor(DAY.THURSDAY);
-          break;
-        case DAY.FRIDAY:
-          this.makeScheduleFor(DAY.FRIDAY);
-          break;
-        default:
-          break
-      }
-    } catch (err) {
-      console.log('Invalid date!');
-    }
-    this.dismiss();
   }
 
   dismiss() {
     this.viewCtrl.dismiss();
+  }
+
+  private fecthFreeSlots() {
+    return new Promise((resolve, reject) => {
+      this.slotService.getSlotsForGeneralPractitioner(this.generalPractitioner, this.schedule, this.token).subscribe((event) => {
+          let slots: any [] = this.slotService.getPractitionerFreeSlots();
+          let index: number = -1;
+          slots.forEach((slot: any) => {
+            index++;
+            if (slot.status == 'free')
+                this.colors[index] = 'secondary';
+            else if (slot.status == 'pending')
+                this.colors[index] = ' #ffff4d';
+            this.numbers[index] = index;
+          });
+          resolve(slots)
+        },
+        (error) => {
+          console.log('Could not fetch slots for general practitioner!', error);
+          reject();
+        })
+    })
+  }
+
+  public eraseTimeZone(date: any) {
+      return new Date(date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+  }
+  private ionViewWillEnter() {
+    console.log('Fetch free slots : Ion view will enter');
+    this.fecthFreeSlots().then((data: any) => {
+      this.slotsHasArrived = true;
+      this.slots = data;
+    });
   }
 }

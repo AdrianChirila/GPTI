@@ -40,21 +40,28 @@ export class SlotService {
       //   Observable.throw(new Error("No deal found!")) :
       //   Observable.throw(new Error("Service unavailable")));
   }
-
-  getSlotsForGeneralPractitioner(generalPractitioner: string, token: string) {
+  private eraseTimeZone(slots: any[]) {
+    for(let index: number = 0; index < slots.length; index ++) {
+      slots[index].start = new Date(slots[index].start).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      slots[index].end = new Date(slots[index].end).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
+  }
+  getSlotsForGeneralPractitioner(generalPractitioner: string, schedule: any, token: string) {
     if (!this.headers.has(HEADERS.AUTHORIZATION))
       this.headers.append(HEADERS.AUTHORIZATION, token);
-
-    let slotUrl: string = `${SERVER_ADDRESS}${URLS.API}${URLS.SLOT}?generalPractitioner=${generalPractitioner}&status=free`;
+    let start: string = schedule.planningHorizon.start;
+    let end: string = schedule.planningHorizon.end;
+    let slotUrl: string = `${SERVER_ADDRESS}${URLS.API}${URLS.SLOT}?generalPractitioner=${generalPractitioner}&schedule=${schedule._id}`;
     console.log('Request to server :', slotUrl);
     try {
       return this.http
         .get(slotUrl, {headers: this.headers})
         .map((res: any) => {
-          console.log('Response:::', res);
           let parsedRespone: any = res.json();
+          // this.eraseTimeZone(parsedRespone);
           this.practitionerFreeSlots = parsedRespone;
-          // logger.log(`Str response: ${parsedRespone.stringify()}`);
+          console.log('Parsed response:::', parsedRespone);
+          // logger.log(`Str response: ${parsedRespone.stringify()}`)
           logger.log(`Response from server with status ${parsedRespone.status} : ${parsedRespone.token}`);
         });
     } catch (err) {

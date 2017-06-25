@@ -71,4 +71,19 @@ export class PatientService {
   getTargetPatient() {
     return this.targetPatient;
   }
+
+  add(token: string, patient: any) {
+    logger.log(`Post patient via http`);
+    this.headers.set(HEADERS.AUTHORIZATION, token);
+    return this.http
+      .post(this.patientApi, JSON.stringify(patient), {headers: this.headers})
+      .map((res: any) => {
+        let parsedRespone: any = res.json();
+        // logger.log(`S  tr response: ${parsedRespone.stringify()}`);
+        logger.log(`Response from server with status ${parsedRespone.status} : ${parsedRespone.token}`);
+      })
+      .catch((r: Response) => r.status == 404 || r.status == 400 ?
+        Observable.throw(new Error("No deal found!")) :
+        Observable.throw(new Error("Service unavailable")));
+  }
 }

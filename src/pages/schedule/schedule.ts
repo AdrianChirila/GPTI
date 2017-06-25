@@ -3,6 +3,7 @@ import {ModalController, Platform, NavParams, ViewController} from 'ionic-angula
 import {weeks, DAY} from "./week";
 import {SlotService} from "../../providers/slot.service";
 import {ShareService} from "../../services/share.service";
+import {ScheduleService} from "../../providers/schedule.service";
 @Component({
   templateUrl: 'schedule.html'
 })
@@ -26,13 +27,12 @@ export class BasicPage {
   selector: 'modal-content',
   // templateUrl: 'modal-content.html'
   template: `
-  <ion-header>
-  <ion-toolbar>
-  <ion-title>
-  <h2>{{day.name}}</h2>
-  </ion-title>
-  </ion-toolbar>
-
+<script src="../home/home.ts"></script>
+<script src="schedule.ts"></script>
+ <ion-header>
+  <ion-navbar  color="primary">
+    <ion-title>{{day.name}}</ion-title>
+  </ion-navbar>
   </ion-header>
   <ion-content>
   <ion-list>
@@ -51,9 +51,11 @@ export class BasicPage {
   <ion-input [(ngModel)]="endProgram" placeholder="scrieti ora">
   </ion-input>
   </ion-item>
-  <button id = "setSchedule" ion-button (click)="setSchedule()">
-  Seteaza
-  </button>
+  <ion-item color="secondary" >
+  <ion-label (click)="setSchedule()">
+      Seteaza
+  </ion-label>
+  </ion-item>
   </ion-list>
   </ion-content>`
 })
@@ -67,7 +69,8 @@ export class ModalContentPage {
   constructor(public platform: Platform,
               public params: NavParams,
               public viewCtrl: ViewController,
-              public slotService: SlotService) {
+              public slotService: SlotService,
+              public scheduleService: ScheduleService) {
     this.dayOfWeekindex = this.params.data.characterNum.charNum;
     this.token = this.params.data.token;
     this.day = weeks[this.dayOfWeekindex];
@@ -90,11 +93,11 @@ export class ModalContentPage {
     let endMinutes: number = parseInt(this.endProgram.split(":")[1]);
     startDate.setHours(startHour, startMinutes);
     endDate.setHours(endHour, endMinutes);
-    this.slotService.create({status: 'free', start: startDate, end: endDate}, this.token)
+    this.scheduleService.create({start: startDate, end: endDate}, this.token)
       .subscribe((event: any) => {
-        console.log('The slot was created!');
+        console.log('Appointment was created!');
       }, (error: any) => {
-        console.log('Could not create the slot::', error);
+        console.log('Could not create appointment::', error);
       });
   }
 

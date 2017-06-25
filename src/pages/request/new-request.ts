@@ -12,7 +12,7 @@ import {AppointmentDetailPage} from "../appointment/detail/appointment.detail";
 })
 export class NewRequestPage {
   private newRequestStatus: string;
-
+  private statusColor: string;
   loader: Loading;
   private appointments: any[];
   constructor(public navCtrl: NavController,
@@ -23,13 +23,24 @@ export class NewRequestPage {
     this.loader = this.loadController.create({
       content: "Patient details"
     });
+
+  }
+
+  private ionViewWillEnter() {
     this.showLoading();
     this.fetchAppointments();
-    this.appointments = appointmentService.getAppointments();
-    if (this.appointments.length == 0)
+    this.appointments = this.appointmentService.getAppointments();
+    console.log('len:::', this.appointments);
+    console.log('len:::', this.appointments.length);
+    console.log('len:::', this.appointments[0]);
+    if (!this.appointments[0]) {
       this.newRequestStatus = "Nu exista cereri de programare";
-    else
-      this.newRequestStatus = `Aveti ${this.newRequestStatus.length} cereri de programare`
+      this.statusColor = 'danger';
+    }
+    else {
+      this.newRequestStatus = `Aveti ${this.appointments.length + 1} cereri de programare`;
+      this.statusColor = 'secondary'
+    }
   }
   private fetchAppointments() {
     this.appointmentService.fetchAppointments('pending', this.shareService.getToken()).subscribe((event: any) => {

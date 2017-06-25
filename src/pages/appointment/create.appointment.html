@@ -1,6 +1,6 @@
 <script src="create.appointment.ts"></script>
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>
       Creeaza o cerere de consultatie!
     </ion-title>
@@ -8,11 +8,13 @@
 </ion-header>
 
 <ion-content>
-  <ion-card color="primary">
-    Programul medicului
+  <ion-card color="secondary">
+    <ion-label id="programMedic" color="dark">
+      Programul medicului
+    </ion-label>
   </ion-card>
 
-  <ion-list *ngIf="slotsHasArrived">
+  <ion-list *ngIf="schedulesHasArrived">
     <!--<a ion-item (click)="openModal({charNum: 0})">
       Luni
     </a>-->
@@ -21,8 +23,8 @@
       <ion-item>
         <ion-label color="primary" stacked>
           {{days[0].name}}
-          {{getTime(practitionerFreeSlots[0].start)}} -
-          {{getTime(practitionerFreeSlots[0].end)}}
+          {{getTime(practitionerSchedule[0].planningHorizon.start)}} -
+          {{getTime(practitionerSchedule[0].planningHorizon.end)}}
         </ion-label>
       </ion-item>
     </ion-card>
@@ -31,8 +33,8 @@
       <ion-item>
         <ion-label color="primary" stacked>
           {{days[1].name}}
-          {{getTime(practitionerFreeSlots[1].start)}} -
-          {{getTime(practitionerFreeSlots[1].end)}}
+          {{getTime(practitionerSchedule[1].planningHorizon.start)}} -
+          {{getTime(practitionerSchedule[1].planningHorizon.end)}}
         </ion-label>
       </ion-item>
     </ion-card>
@@ -41,8 +43,8 @@
       <ion-item>
         <ion-label color="primary" stacked>
           {{days[2].name}}
-          {{getTime(practitionerFreeSlots[2].start)}} -
-          {{getTime(practitionerFreeSlots[2].end)}}
+          {{getTime(practitionerSchedule[2].planningHorizon.start)}} -
+          {{getTime(practitionerSchedule[2].planningHorizon.end)}}
         </ion-label>
       </ion-item>
     </ion-card>
@@ -51,8 +53,8 @@
       <ion-item>
         <ion-label color="primary" stacked>
           {{days[3].name}}
-          {{getTime(practitionerFreeSlots[3].start)}} -
-          {{getTime(practitionerFreeSlots[3].end)}}
+          {{getTime(practitionerSchedule[3].planningHorizon.start)}} -
+          {{getTime(practitionerSchedule[3].planningHorizon.end)}}
         </ion-label>
       </ion-item>
     </ion-card>
@@ -61,8 +63,8 @@
       <ion-item>
         <ion-label color="primary" stacked>
           {{days[4].name}}
-          {{getTime(practitionerFreeSlots[4].start)}} -
-          {{getTime(practitionerFreeSlots[4].end)}}
+          {{getTime(practitionerSchedule[4].planningHorizon.start)}} -
+          {{getTime(practitionerSchedule[4].planningHorizon.end)}}
         </ion-label>
       </ion-item>
     </ion-card>

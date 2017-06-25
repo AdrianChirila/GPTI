@@ -11,21 +11,23 @@
 <script src="home.ts"></script>
 
 <ion-header>
-  <ion-navbar>
-    <ion-title>Cereri pentru constulataii</ion-title>
+  <ion-navbar  color="primary">
+    <ion-title> Cereri pentru constulatii </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-card>
-    <ion-card-header (click) = "goBack()">
+  <ion-card color = '{{statusColor}}'>
+    <ion-card-header  (click) = "goBack()">
      {{newRequestStatus}}
     </ion-card-header>
 
     <ion-list>
       <button ion-item  (click)="goToPatientDetails(appointment)" *ngFor="let appointment of appointments">
-        <ion-icon name="md-time" item-left></ion-icon>
-        {{appointment.participant[0].actor.display}} {{appointment.date}}
+        <ion-icon id = 'appointment' name="md-time" item-left></ion-icon>
+        <ion-label color="primary">
+          {{appointment.participant[0].actor.display}}
+        </ion-label>
       </button>
     </ion-list>
 

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {getLogger, ConsoleLogger} from '../../utils'
-import {NavController, NavParams, LoadingController, Loading} from 'ionic-angular';
+import {NavController, NavParams, LoadingController, Loading, ToastController} from 'ionic-angular';
 import {AuthService} from "../../providers/auth.service";
 import {HomePage} from "../home/home";
 import {ShareService} from "../../services/share.service";
@@ -14,13 +14,15 @@ export class LoginPage {
   private cnp: string;
   private password: string;
   private status: string;
+  private authMessage: string;
   loader: Loading;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public authService: AuthService,
               public shareService: ShareService,
-              public loadController: LoadingController) {
+              public loadController: LoadingController,
+              public toastCtrl: ToastController) {
     logger.log('Constructor: LoginPage');
     this.status = " ";
   }
@@ -45,6 +47,13 @@ export class LoginPage {
       },
       (error: any) => {
         console.log('Error::', error);
+        let toast = this.toastCtrl.create({
+          message: `Nume de utilizator sau parola gresita!`,
+          duration: 3000,
+          position: 'bottom'
+        });
+        this.hideLoading();
+        toast.present();
         this.status = `Error`
       });
   }

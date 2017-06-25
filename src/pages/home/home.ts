@@ -11,6 +11,7 @@ import {PractitionerPopOverPage} from "../popover/practitioner.popover.page";
 import {CreateAppointmentPage} from "../appointment/create.appointment";
 import {BasicPage} from "../schedule/schedule";
 import {LoginPage} from "../auth/login";
+import {CreatePatientPage} from "../patient/create.patient";
 
 @Component({
   selector: 'page-home',
@@ -22,6 +23,7 @@ export class HomePage {
   private practitionerMode: boolean;
   private patientMode: boolean;
   private modeStatus: string;
+  private appointMentsHasArived: boolean;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -44,8 +46,12 @@ export class HomePage {
       });
       this.showLoading();
       // this.fetchPatients();
-      this.fetchAppointments();
-      this.appointments = this.appointmentService.getAppointments();
+      this.fetchAppointments().then((data: any)=> {
+        this.appointments = data;
+        console.log('Appointments::::', this.appointments);
+        console.log('Appointments::::', this.appointments.length);
+        this.appointMentsHasArived = true;
+      });
       // this.navCtrl.setRoot(HomePage);
     }
   }
@@ -68,6 +74,10 @@ export class HomePage {
     this.loader ? this.loader.dismiss() : true;
   }
 
+  goToCreatePatientPage() {
+    this.navCtrl.push(CreatePatientPage);
+  }
+
   goToPatientDetails(appointment: any) {
     this.shareService.setSelectedPatient(this.getPatientFromAppointment(appointment));
     // console.log('Go to patient Details!', patient.name.family);
@@ -77,12 +87,18 @@ export class HomePage {
   }
 
   private fetchAppointments() {
-    this.appointmentService.fetchAppointments('booked', this.shareService.getToken()).subscribe((event: any) => {
-        this.hideLoading();
-      },
-      (error: any) => {
-        console.log('Error::', error);
-      });
+    return new Promise((resolve: any, reject: any) => {
+      this.appointmentService.fetchAppointments('booked', this.shareService.getToken()).subscribe((event: any) => {
+          this.hideLoading();
+          let appointments: any[] = this.appointmentService.getAppointments();
+          console.log('Apointements :x:::', appointments);
+          resolve(appointments);
+        },
+        (error: any) => {
+          console.log('Error::', error);
+          reject(error);
+        });
+    });
   }
 
   private goToNewRequestPage() {
@@ -110,10 +126,10 @@ export class HomePage {
     if (this.shareService.getAppMode() == APP_MODES.Practitioner) {
       console.log('Practitioner mode on!');
       this.practitionerMode = true;
-      this.modeStatus = "Lista cu programarile curente"
+      this.modeStatus = "Programari curente"
     } else {
       this.patientMode = true;
-      this.modeStatus = "Programari la medicul de familie"
+      this.modeStatus = "Programari la medic"
     }
   }
 
