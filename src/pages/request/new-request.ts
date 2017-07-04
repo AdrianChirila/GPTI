@@ -23,7 +23,6 @@ export class NewRequestPage {
     this.loader = this.loadController.create({
       content: "Patient details"
     });
-
   }
 
   private ionViewWillEnter() {
@@ -63,6 +62,7 @@ export class NewRequestPage {
     this.shareService.setSelectedAppointment(appointment);
     // console.log('Go to patient Details!', patient.name.family);
     // this.showLoading();
+    this.shareService.setBeforeAppointmentDetail('newRequest');
     this.navCtrl.push(AppointmentDetailPage);
     // this.hideLoading();
   }

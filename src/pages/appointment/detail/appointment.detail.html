@@ -2,7 +2,7 @@
 
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>Detalii cerere de programare</ion-title>
+    <ion-title>Detalii programare</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -35,7 +35,14 @@
     <ion-label color ="primary">
       Data: {{eraseTimeZone(targetAppointment.date)}}
     </ion-label>
-  </ion-card>
+  </ion-card >
+  <ion-item *ngIf="beforeNewRequest">
     <button ion-button (click)="acceptAppointment()">Accepta</button>
     <button ion-button (click)="rejectAppointment()">Respinge</button>
+  </ion-item>
+  <ion-item *ngIf="beforeHome">
+    <button ion-button (click)="finishAppointment()">Finalizeaza</button>
+    <button ion-button (click)="rejectAppointment()">Respinge</button>
+  </ion-item>
+
 </ion-content>

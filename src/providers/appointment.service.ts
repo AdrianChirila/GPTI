@@ -43,6 +43,17 @@ export class AppointmentService {
       });
   }
 
+  public finish(token: string, appointment: any) {
+    this.headers.set(HEADERS.AUTHORIZATION, token);
+    logger.log(`Update Appointments via http`);
+    appointment.status = 'fulfilled	';
+    return this.http
+      .put(`${this.appointmentApi}/${appointment._id}`, appointment, {headers: this.headers})
+      .map((res: any) => {
+
+      });
+  }
+
   public reject(token: string, appointment: any) {
     this.headers.set(HEADERS.AUTHORIZATION, token);
     logger.log(`Update Appointments via http`);

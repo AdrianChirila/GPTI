@@ -94,7 +94,7 @@ export class CreateAppointmentPage {
 
   private fetchAppointments() {
     return new Promise((resolve, reject) => {
-      let targetAppointmentsStatus = `booked||pending`;
+      let targetAppointmentsStatus = `booked||pending||cancelled`;
       this.appointmentService.fetchAppointments(targetAppointmentsStatus, this.shareService.getToken()).subscribe((event) => {
         console.log('Appointments:::', this.appointmentService.getAppointments());
         resolve(this.appointmentService.getAppointments());

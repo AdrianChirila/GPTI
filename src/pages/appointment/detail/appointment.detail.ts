@@ -14,12 +14,22 @@ export class AppointmentDetailPage {
   private patient: Patient;
   private targetAppointment: any = null;
   private patientHasArrived: boolean = false;
+  private beforeHome: boolean;
+  private beforeNewRequest: boolean;
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public patientService: PatientService,
               public appointmentService: AppointmentService,
               public loadController: LoadingController,
               public shareService: ShareService) {
+   if (this.shareService.getBeforeAppointmentDetail() == 'home') {
+     this.beforeHome = true;
+     this.beforeNewRequest =false;
+   }
+   else  {
+     this.beforeNewRequest = true;
+     this.beforeHome = false;
+   }
   }
   private ionViewDidLoad() {
     console.log('Ion view did load!');
@@ -65,13 +75,23 @@ export class AppointmentDetailPage {
   private acceptAppointment() {
     this.appointmentService.book(this.shareService.getToken(), this.shareService.getSelectedAppointment()).subscribe((event: any)=> {
       console.log('Appointment was made!');
-      this.navCtrl.setRoot(NewRequestPage);
+      this.navCtrl.pop();
+      // this.navCtrl.setRoot(NewRequestPage);
+    });
+  }
+  private finishAppointment() {
+    console.log("xxxx::: FINISHED APPOINTMENT");
+    this.appointmentService.finish(this.shareService.getToken(), this.shareService.getSelectedAppointment()).subscribe((event: any)=> {
+      console.log('Appointment was finished!');
+      this.navCtrl.pop();
+      // this.navCtrl.setRoot(NewRequestPage);
     });
   }
   private rejectAppointment() {
     this.appointmentService.reject(this.shareService.getToken(), this.shareService.getSelectedAppointment()).subscribe((event: any)=> {
       console.log('Appointment was rejected!');
-      this.navCtrl.setRoot(NewRequestPage);
+      this.navCtrl.pop();
+      // this.navCtrl.setRoot(NewRequestPage);
     });
     console.log('Reject appointment!');
   }

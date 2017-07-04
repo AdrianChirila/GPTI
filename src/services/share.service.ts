@@ -1,5 +1,6 @@
 import {Patient} from "../domain/patient"
 export class ShareService {
+  private beforeAppointmentDetail: string;
   private selectedPatient: Patient;
   private token: string;
   private selectedAppointment: any;
@@ -42,7 +43,15 @@ export class ShareService {
     return this.appMode;
   }
 
-  setGeneralPractitioner(generalPractitioner: string) {
+  public setGeneralPractitioner(generalPractitioner: string) {
     this.generalPractitioner = generalPractitioner;
+  }
+
+  public setBeforeAppointmentDetail(s: string) {
+    this.beforeAppointmentDetail = s;
+  }
+
+  getBeforeAppointmentDetail() {
+    return this.beforeAppointmentDetail;
   }
 }

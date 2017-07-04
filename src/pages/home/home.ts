@@ -12,6 +12,7 @@ import {CreateAppointmentPage} from "../appointment/create.appointment";
 import {BasicPage} from "../schedule/schedule";
 import {LoginPage} from "../auth/login";
 import {CreatePatientPage} from "../patient/create.patient";
+import {AppointmentDetailPage} from "../appointment/detail/appointment.detail";
 
 @Component({
   selector: 'page-home',
@@ -79,10 +80,13 @@ export class HomePage {
   }
 
   goToPatientDetails(appointment: any) {
+    console.log('xxx', appointment);
     this.shareService.setSelectedPatient(this.getPatientFromAppointment(appointment));
+    this.shareService.setSelectedAppointment(appointment);
     // console.log('Go to patient Details!', patient.name.family);
     // this.showLoading();
-    this.navCtrl.setRoot(PatientDetailPage);
+    this.shareService.setBeforeAppointmentDetail('home');
+    this.navCtrl.push(AppointmentDetailPage);
     // this.hideLoading();
   }
 
@@ -104,7 +108,7 @@ export class HomePage {
   private goToNewRequestPage() {
     this.loader.setContent("New Request");
     // this.showLoading();
-    this.navCtrl.setRoot(NewRequestPage);
+    this.navCtrl.push(NewRequestPage);
     // this.hideLoading();
   }
 
