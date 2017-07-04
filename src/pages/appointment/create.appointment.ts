@@ -242,7 +242,7 @@ export class ModalAppointmentContentPage {
     console.log('Appointment:::', appointment);
     this.appointmentService.create(this.token, appointment)
       .subscribe((event: any) => {
-        this.navCtrl.push(CreateAppointmentPage);
+        this.navCtrl.pop();
       }, (error: any) => {
         console.log('Could not fetch appointments: ', error);
       });
