@@ -116,7 +116,6 @@ export class CreateAppointmentPage {
 
   private ionViewWillEnter() {
     console.log('Create appointment: Ion view will enter!');
-    console.log('Create appointment : Ion view did load!');
     // this.fetchSchedules();
     this.fetchSchedules().then((data: any) => {
       this.schedulesHasArrived = true;
@@ -124,6 +123,7 @@ export class CreateAppointmentPage {
     });
 
     this.fetchAppointments().then((data: any) => {
+      console.log('Fetch appointment!');
       this.booked = false;
       this.pending = false;
       this.appointments = data;
@@ -159,13 +159,10 @@ export class CreateAppointmentPage {
   <ion-content>
   <ion-list>
   <ion-item>
-  <ion-label>Inceput programare</ion-label>
-  <ion-datetime id= "ionDateTime" displayFormat="hh:m:A" [(ngModel)]="start"></ion-datetime>
+  <!--<ion-label>Inceput programare</ion-label>
+  <ion-datetime id= "ionDateTime" displayFormat="hh:m:A" [(ngModel)]="start"></ion-datetime>-->
   </ion-item>
-  <button id = "setSchedule" ion-button (click)="createAppointment()">
-  Seteaza
-  </button>
-  <ion-card style="overflow-y: scroll;height: 400px;">
+  <ion-card style="overflow-y: scroll;height: 350px;">
     <ion-label color="primary">Sugestii programare</ion-label>
     <ion-item *ngIf="slotsHasArrived">
           <div *ngFor="let slot of slots;let i = index" >
@@ -176,6 +173,9 @@ export class CreateAppointmentPage {
           </div>
     </ion-item>
   </ion-card>
+   <button id = "setSchedule" ion-button (click)="createAppointment()">
+  Seteaza
+  </button>
   </ion-list>
   </ion-content>`
 })

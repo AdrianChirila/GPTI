@@ -17,6 +17,7 @@ export class AppointmentService {
   private headers: Headers = new Headers(HEADERS.CONTENT_TYPE);
   private appointments: any [] = [];
   private appointmentApi: string = `${SERVER_ADDRESS}${URLS.API}${URLS.APPOINTMENT}`;
+  private appointmentHasBeenRequested: boolean;
 
   constructor(public http: Http) {
     logger.log('AppointmentService !');
@@ -76,6 +77,7 @@ export class AppointmentService {
       .map((res: any) => {
         let parsedResponse: any = res.json();
         console.log('Appointment from server!', parsedResponse);
+        this.appointmentHasBeenRequested = true;
         // this.parsePatients(parsedResponse);
         // logger.log(`Str response: ${parsedRespone.stringify()}`);
         logger.log(`Response from server with status ${parsedResponse.status}`);

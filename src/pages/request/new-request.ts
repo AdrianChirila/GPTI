@@ -24,25 +24,31 @@ export class NewRequestPage {
       content: "Patient details"
     });
   }
-
-  private ionViewWillEnter() {
-    this.showLoading();
-    this.fetchAppointments();
-    this.appointments = this.appointmentService.getAppointments();
-    console.log('len:::', this.appointments);
-    console.log('len:::', this.appointments.length);
-    console.log('len:::', this.appointments[0]);
-    if (!this.appointments[0]) {
-      this.newRequestStatus = "Nu exista cereri de programare";
-      this.statusColor = 'danger';
-    }
-    else {
-      this.newRequestStatus = `Aveti ${this.appointments.length + 1} cereri de programare`;
-      this.statusColor = 'secondary'
-    }
+  private ionViewDidLoad() {
+    console.log('Ion view did load!');
   }
-  private fetchAppointments() {
+  private ionViewWillEnter() {
+    console.log('Ion view will enter');
+    this.showLoading();
+    this.fetchAppointments(() => {
+      this.appointments = this.appointmentService.getAppointments();
+      console.log('len:::', typeof this.appointments);
+      console.log('len:::', this.appointments);
+      console.log('len:::', this.appointments.length);
+      console.log('len:::', this.appointments[0]);
+      if (!this.appointments[0]) {
+        this.newRequestStatus = "Nu exista cereri de programare";
+        this.statusColor = 'danger';
+      }
+      else {
+        this.newRequestStatus = `Cereri de consultatie`;
+        this.statusColor = 'secondary'
+      }
+    });
+  }
+  private fetchAppointments(callback: any) {
     this.appointmentService.fetchAppointments('pending', this.shareService.getToken()).subscribe((event: any) => {
+        callback();
         console.log('Done!', event);
         this.hideLoading();
       },
@@ -78,6 +84,6 @@ export class NewRequestPage {
   }
 
   private goBack() {
-    this.navCtrl.push(HomePage);
+    this.navCtrl.setRoot(HomePage);
   }
 }

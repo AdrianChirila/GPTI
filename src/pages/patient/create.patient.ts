@@ -30,7 +30,8 @@ export class CreatePatientPage {
               public loadController: LoadingController,
               public shareService: ShareService,
               public modalCtrl: ModalController,
-              public toastCtrl: ToastController) {
+              public toastCtrl: ToastController,
+              public navCtrl: NavController) {
   }
 
   private addPatient() {
@@ -42,9 +43,9 @@ export class CreatePatientPage {
       cnp: this.cnp
     };
 
-    console.log('xxx', this.lastName, this.firstName, this.cnp);
     this.patientService.add(this.shareService.getToken(), patient).subscribe((event: any) => {
         console.log('Patient was created!');
+        this.navCtrl.pop();
       },
       (error: any) => {
         console.log('Could not add patient: ', error);
