@@ -36,35 +36,44 @@ export class BasicPage {
   </ion-header>
   <ion-content>
   <ion-list>
-    <ion-item>
+    <!--<ion-item>
   <ion-label color = "primary" stacked>
     Inceput program: 
   </ion-label>
   <ion-input [(ngModel)]="startProgram" placeholder="scrieti ora">
   </ion-input>
   </ion-item>
-  
   <ion-item>
   <ion-label color = "primary" stacked>
     Sfarsit program: 
   </ion-label>
   <ion-input [(ngModel)]="endProgram" placeholder="scrieti ora">
   </ion-input>
-  </ion-item>
-  <ion-item color="secondary" >
-  <ion-label (click)="setSchedule()">
-      Seteaza
-  </ion-label>
+  </ion-item>-->
+   <ion-item>
+     <ion-label>Inceput program</ion-label>
+    <ion-datetime color="primary" id= "ionDateTime1" displayFormat="hh:m:A" [(ngModel)]="startPicker"></ion-datetime>
+     </ion-item>
+   <ion-item>    
+    <ion-label>Sfarsit program</ion-label>
+    <ion-datetime color="primary" id= "ionDateTime2" displayFormat="hh:m:A" [(ngModel)]="endPicker"></ion-datetime>
   </ion-item>
   </ion-list>
+   <ion-item color="secondary" >
+  <ion-label (click)="setSchedule()">
+      Seteaza!
+  </ion-label>
+  </ion-item>
   </ion-content>`
 })
 export class ModalContentPage {
   private day: any;
   private token: string;
-  private startProgram: string;
-  private endProgram: string;
+  // private startProgram: string;
+  // private endProgram: string;
   private dayOfWeekindex: number;
+  private startPicker: string;
+  private endPicker: string;
 
   constructor(public platform: Platform,
               public params: NavParams,
@@ -85,12 +94,16 @@ export class ModalContentPage {
     return new Date(d.setDate(diff));
   }
   private makeScheduleFor(day: number) {
+    console.log('End program:::', this.startPicker);
+    console.log('End program:::', this.endPicker);
     let startDate: Date = this.getLastDayOfWeek(new Date(), day + 1);
     let endDate: Date = this.getLastDayOfWeek(new Date(), day + 1);
-    let startHour: number = parseInt(this.startProgram.split(":")[0]);
-    let startMinutes: number = parseInt(this.startProgram.split(":")[1]);
-    let endHour: number = parseInt(this.endProgram.split(":")[0]);
-    let endMinutes: number = parseInt(this.endProgram.split(":")[1]);
+    let startHour: number = parseInt(this.startPicker.split(":")[0]);
+    let startMinutes: number = parseInt(this.startPicker.split(":")[1]);
+    let endHour: number = parseInt(this.endPicker.split(":")[0]);
+    let endMinutes: number = parseInt(this.endPicker.split(":")[1]);
+    console.log("xxx", startHour, startMinutes)
+    console.log("xxx", endHour, endMinutes);
     startDate.setHours(startHour, startMinutes);
     endDate.setHours(endHour, endMinutes);
     this.scheduleService.create({start: startDate, end: endDate}, this.token)

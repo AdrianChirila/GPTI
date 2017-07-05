@@ -10,6 +10,7 @@ import {ScheduleService} from "../../providers/schedule.service";
 import {weeks, DAY} from "../schedule/week";
 import {SlotService} from "../../providers/slot.service";
 import {AppointmentDetailPage} from "./detail/appointment.detail";
+import {displayDate} from "../../utils/date"
 
 @Component({
   selector: 'create-appointment',
@@ -129,6 +130,7 @@ export class CreateAppointmentPage {
       this.appointments = data;
       this.appointmentsHasArrived = true;
       this.appointments.forEach((appointment: any) => {
+        appointment.date = displayDate(appointment.date);
         if (appointment.status == 'booked') {
           this.bookedAppointment = appointment;
           this.booked = true;
