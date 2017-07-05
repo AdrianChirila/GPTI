@@ -5,6 +5,7 @@ import {Patient} from "../../../domain/patient";
 import {ShareService} from "../../../services";
 import {AppointmentService} from "../../../providers/appointment.service";
 import {NewRequestPage} from "../../request/new-request";
+import {HomePage} from "../../home/home";
 @Component({
   selector: 'appointment-detail',
   templateUrl: 'appointment.detail.html'
@@ -83,7 +84,7 @@ export class AppointmentDetailPage {
     console.log("xxxx::: FINISHED APPOINTMENT");
     this.appointmentService.finish(this.shareService.getToken(), this.shareService.getSelectedAppointment()).subscribe((event: any)=> {
       console.log('Appointment was finished!');
-      this.navCtrl.pop();
+      this.navCtrl.setRoot(HomePage);
       // this.navCtrl.setRoot(NewRequestPage);
     });
   }
