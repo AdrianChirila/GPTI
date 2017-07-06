@@ -107,4 +107,12 @@ export class AppointmentService {
         Observable.throw(new Error("No deal found!")) :
         Observable.throw(new Error("Service unavailable")));
   }
+
+  public getAppointmentHasBeenRequested() {
+    return this.appointmentHasBeenRequested;
+  }
+
+  public settAppointmentHasBeenRequested(appointmentHasBeenRequested: boolean) {
+    return this.appointmentHasBeenRequested;
+  }
 }

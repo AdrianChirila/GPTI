@@ -69,14 +69,19 @@
       </ion-item>
     </ion-card>
     <ion-card>
-        <button *ngIf="pending" ion-item color="primary" (click)="showAppointmentDetail()">
+        <button *ngIf="pending" ion-item color="primary" >
           <ion-icon name="md-clock" item-left></ion-icon>
           Cerere trimisa
         </button>
 
-      <button *ngIf="booked" ion-item color="secondary" (click)="showAppointmentDetail()">
+      <button *ngIf="booked" ion-item color="secondary" >
         <ion-icon name="md-clock" item-left></ion-icon>
         Cerere acceptata  {{bookedAppointment.date}}
+      </button>
+
+      <button *ngIf="cancelled" ion-item color="danger" >
+        <ion-icon name="md-clock" item-left></ion-icon>
+        Cerere respinsa  {{cancelledAppointment.date}}
       </button>
     </ion-card>
   </ion-list>

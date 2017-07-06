@@ -28,6 +28,8 @@ export class CreateAppointmentPage {
   private appointmentsHasArrived: boolean;
   private bookedAppointment: any = null;
   private pendingAppointment: any = null;
+  private cancelled: boolean;
+  private cancelledAppointment: any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -114,6 +116,9 @@ export class CreateAppointmentPage {
         })
     })
   }
+  private ionViewDidLoad() {
+    console.log('Ion view did load!');
+  }
 
   private ionViewWillEnter() {
     console.log('Create appointment: Ion view will enter!');
@@ -134,12 +139,23 @@ export class CreateAppointmentPage {
         if (appointment.status == 'booked') {
           this.bookedAppointment = appointment;
           this.booked = true;
+          this.appointmentService.settAppointmentHasBeenRequested(false);
         }
         if (appointment.status == 'pending') {
+          this.appointmentService.settAppointmentHasBeenRequested(false);
           this.pendingAppointment = appointment;
           this.pending = true;
+        } else if (appointment.status == 'cancelled') {
+          console.log('Cancel detected!');
+          this.cancelledAppointment = appointment;
+          this.cancelled = true;
         }
+
       });
+      if (this.booked || this.pending || !this.appointmentService.getAppointmentHasBeenRequested()) {
+        console.log('Not Really cancelled');
+        this.cancelled = false;
+      }
     });
     //appointmentService
   }
@@ -244,6 +260,7 @@ export class ModalAppointmentContentPage {
     console.log('Appointment:::', appointment);
     this.appointmentService.create(this.token, appointment)
       .subscribe((event: any) => {
+      this.appointmentService.settAppointmentHasBeenRequested(true);
         this.navCtrl.pop();
       }, (error: any) => {
         console.log('Could not fetch appointments: ', error);
