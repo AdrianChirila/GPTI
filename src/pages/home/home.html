@@ -34,7 +34,7 @@
             Configureaza program
           </button>
           <button ion-item >
-            <ion-icon id="personalPractitoner" name="ios-person" item-left></ion-icon>
+            <ion-icon (click) = "goToPractitionerDetailPage()" id="personalPractitoner" name="ios-person" item-left></ion-icon>
             Date personale
           </button>
           <button ion-item >
@@ -49,7 +49,7 @@
   <ion-card  *ngIf="practitionerMode" style="overflow-y: scroll;height: 200px;">
     <button ion-item (click)="goToPatientDetails(appointment)" *ngFor="let appointment of appointments" color="secondary">
       <ion-icon name="md-time" item-left></ion-icon>
-      {{appointment.participant[0].actor.display}} {{appointment.date}}
+      {{appointment.participant[0].actor.display}} {{appointment.specialDate}}
     </button>
   </ion-card>
 
@@ -69,7 +69,7 @@
 
       </p>
       <button ion-item >
-        <ion-icon id="info" name="md-information-circle" item-left></ion-icon>
+        <ion-icon (click) = "goToPractitionerDetailPage()" id="info" name="md-information-circle" item-left></ion-icon>
         Informatii medic
       </button>
       <p>

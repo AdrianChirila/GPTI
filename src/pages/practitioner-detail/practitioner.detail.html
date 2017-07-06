@@ -1,0 +1,56 @@
+<script src="practitioner.detail.ts"></script>
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>Date personale</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card *ngIf = "practitionerMode">
+    <ion-item color="primary">
+      <ion-label stacked>Date Personale</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" stacked>Nume</ion-label>
+      <ion-input placeholder="nume" [(ngModel)]="firstName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" stacked>Prenume</ion-label>
+      <ion-input placeholder="prenume" [(ngModel)]="lastName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" stacked>Telefon</ion-label>
+      <ion-input placeholder="telefon" [(ngModel)]="phone"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" stacked>Mail</ion-label>
+      <ion-input placeholder="mail" [(ngModel)]="mail"></ion-input>
+    </ion-item>
+    <ion-item color="secondary">
+      <!--<ion-icon (click)="logIn()"name="md-log-in" text-center></ion-icon>-->
+      <ion-label (click)="updateData()"> Actualizeaza </ion-label>
+    </ion-item>
+  </ion-card>
+  <ion-card *ngIf = "patientMode">
+    <ion-item color="primary">
+      <ion-label stacked>Date Personale Medic</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" stacked>Nume</ion-label>
+      <ion-input disabled="true" placeholder="nume" [(ngModel)]="firstName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" stacked>Prenume</ion-label>
+      <ion-input disabled="true" placeholder="prenume" [(ngModel)]="lastName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" stacked>Telefon</ion-label>
+      <ion-input disabled="true" placeholder="telefon" [(ngModel)]="phone"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" stacked>Mail</ion-label>
+      <ion-input disabled="true" placeholder="mail" [(ngModel)]="mail"></ion-input>
+    </ion-item>
+  </ion-card>
+</ion-content>

@@ -6,6 +6,7 @@ import {ShareService} from "../../../services";
 import {AppointmentService} from "../../../providers/appointment.service";
 import {NewRequestPage} from "../../request/new-request";
 import {HomePage} from "../../home/home";
+import {displayDate} from "../../../utils/date";
 @Component({
   selector: 'appointment-detail',
   templateUrl: 'appointment.detail.html'
@@ -38,6 +39,7 @@ export class AppointmentDetailPage {
   private ionViewWillEnter() { // THERE IT IS!!!
     console.log('Ion view will Enter');
     this.targetAppointment = this.shareService.getSelectedAppointment();
+    this.targetAppointment.specialDate = displayDate(this.targetAppointment.date);
     this.fetchP();
     // this.fetchPatient(this.shareService.getSelectedPatient(), (patient: any) => {
     //   console.log('Patient::', patient);

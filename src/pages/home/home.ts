@@ -13,6 +13,8 @@ import {BasicPage} from "../schedule/schedule";
 import {LoginPage} from "../auth/login";
 import {CreatePatientPage} from "../patient/create.patient";
 import {AppointmentDetailPage} from "../appointment/detail/appointment.detail";
+import {PractitionerDetailPage} from "../practitioner-detail/practitioner.detail";
+import {displayDate} from "../../utils/date";
 
 @Component({
   selector: 'page-home',
@@ -95,6 +97,9 @@ export class HomePage {
       this.appointmentService.fetchAppointments('booked', this.shareService.getToken()).subscribe((event: any) => {
           this.hideLoading();
           let appointments: any[] = this.appointmentService.getAppointments();
+          appointments.forEach((appointment: any) => {
+            appointment.specialDate = displayDate(appointment.date);
+          });
           console.log('Apointements :x:::', appointments);
           resolve(appointments);
         },
@@ -158,7 +163,9 @@ export class HomePage {
 
   private requestForAppointment() {
   }
-
+  private goToPractitionerDetailPage() {
+    this.navCtrl.push(PractitionerDetailPage);
+  }
   private ionViewDidEnter() {
     console.log('Ion did will enter!');
   }
@@ -174,4 +181,5 @@ export class HomePage {
   private ionViewWillUnload() {
     console.log('Ion view will unload!');
   }
+
 }

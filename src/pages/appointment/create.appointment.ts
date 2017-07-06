@@ -39,7 +39,8 @@ export class CreateAppointmentPage {
               public shareService: ShareService,
               public modalCtrl: ModalController,
               public toastCtrl: ToastController,
-              public scheduleService: ScheduleService) {
+              public scheduleService: ScheduleService,
+  ) {
     console.log('Create appointment : Constructor!');
     this.slotsHasArrived = false;
     this.days = weeks;
@@ -57,6 +58,18 @@ export class CreateAppointmentPage {
   }
 
   openModal(characterNum) {
+    let today = new Date();
+    console.log('hmh', today.getDate(), ' vs ', characterNum);
+    if (today.getDay() -1 > characterNum.charNum) {
+      let toast = this.toastCtrl.create({
+        message: 'Nu puteti programa consultatii decat cu maximum 48 ore' +
+        'inainte',
+        duration: 3000,
+        position: 'bottom'
+      });
+      toast.present();
+      return;
+    }
     if (this.booked || this.pending) {
       let message: string;
       if (this.booked)
@@ -219,7 +232,7 @@ export class ModalAppointmentContentPage {
               public viewCtrl: ViewController,
               public appointmentService: AppointmentService,
               public slotService: SlotService,
-              public navCtrl: NavController,) {
+              public navCtrl: NavController) {
     console.log('params:::', this.params);
     this.color = "secondary";
     this.dayOfWeekindex = this.params.data.characterNum.charNum;

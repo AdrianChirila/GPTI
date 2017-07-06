@@ -21,7 +21,9 @@ function mapDay(dayNumber: number) {
 }
 
 export function displayDate(date: any) {
-  // let newDate: String = new Date(date).toLocaleTimeString([], {month: 'long', day: '2-digit', hour: '2-digit', minute:'2-digit'});
   let newDate: Date = new Date(date);
-  return mapDay(newDate.getDate()) + " " + newDate.getDay() + " " + mapMonth(newDate.getMonth()) + " " + newDate.getHours() + ":" + newDate.getMinutes()
+  console.log('XXXX DATE XXX', date);
+  console.log('XXXX DATE XXX', newDate.getDate());
+  // let newDate: String = new Date(date).toLocaleTimeString([], {month: 'long', day: '2-digit', hour: '2-digit', minute:'2-digit'});
+  return mapDay(newDate.getDay()) + " " + newDate.getDate() + " " + mapMonth(newDate.getMonth()) + " " + newDate.getHours() + ":" + newDate.getMinutes()
 }

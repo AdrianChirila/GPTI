@@ -6,7 +6,8 @@ export const URLS = {
   PATIENT: '/Patient',
   APPOINTMENT: '/Appointment',
   SLOT: '/Slot',
-  SCHEDULE: '/Schedule'
+  SCHEDULE: '/Schedule',
+  PRACTITIONER: '/Practitioner'
 };
 
 export const SERVER_ADDRESS = `http://192.168.0.120:3000`;

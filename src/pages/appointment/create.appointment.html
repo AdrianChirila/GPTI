@@ -71,7 +71,7 @@
     <ion-card>
         <button *ngIf="pending" ion-item color="primary" >
           <ion-icon name="md-clock" item-left></ion-icon>
-          Cerere trimisa
+          Cerere trimisa {{pendingAppointment.date}}
         </button>
 
       <button *ngIf="booked" ion-item color="secondary" >

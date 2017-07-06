@@ -18,6 +18,8 @@ import {SlotService} from "../providers/slot.service";
 import {AppointmentDetailPage} from "../pages/appointment/detail/appointment.detail";
 import {CreatePatientPage} from "../pages/patient/create.patient";
 import {ScheduleService} from "../providers/schedule.service";
+import {PractitionerDetailPage} from "../pages/practitioner-detail/practitioner.detail";
+import {PractitionerService} from "../providers/practitioner.service";
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import {ScheduleService} from "../providers/schedule.service";
     ModalContentPage,
     ModalAppointmentContentPage,
     AppointmentDetailPage,
-    CreatePatientPage
+    CreatePatientPage,
+    PractitionerDetailPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -56,8 +59,9 @@ import {ScheduleService} from "../providers/schedule.service";
     ModalContentPage,
     ModalAppointmentContentPage,
     AppointmentDetailPage,
-    CreatePatientPage
+    CreatePatientPage,
+    PractitionerDetailPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, AuthService, PatientService, AppointmentService, SlotService, ScheduleService]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, AuthService, PatientService, AppointmentService, SlotService, ScheduleService, PractitionerService]
 })
 export class AppModule {}
